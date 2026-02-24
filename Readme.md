@@ -1,18 +1,19 @@
-Wokerlin Liyker
+Game1 With C
 ---
 
-![img](https://img.shields.io/badge/Author-MeowWow520-pink)  ![img](https://img.shields.io/badge/License-CC_BY__NC__SA_4.0-orange)  [![Commits](https://img.shields.io/github/commit-activity/w/MeowWow520/WokerlinLiyker)](https://github.com/MeowWow520/WokerlinLiyker) ![Stars](https://img.shields.io/github/stars/MeowWow520) 
+![img](https://img.shields.io/badge/Author-MeowWow520-pink)  ![img](https://img.shields.io/badge/License-CC_BY__NC__SA_4.0-orange)  [![Commits](https://img.shields.io/github/commit-activity/w/MeowWow520/Game1WithC)](https://github.com/MeowWow520/Game1WithC) ![Stars](https://img.shields.io/github/stars/MeowWow520) 
 
 
 [中文文档](./Readme_CN.md) | [English Document](./Readme.md)
 
 ## Using Encode Language
 - Simple DirectMedia Layer 2
+
 **SDL2 is a cross-platform development library** designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware via OpenGL and Direct3D. It is used by video game developers, programmers who need fine control over their graphics hardware, and researchers who need to manipulate images and sounds efficiently. SDL provides a simple way to access the features of the hardware while still allowing you to write portable code.
 
-|Layer Name |   SDL2  | SDL_image | SDL_mixer | SDL_ttf | 
-|    ---    |   ---   |    ---    |    ---    |   ---   |
-|Version    | 2.32.10 | 2.8.8     |   2.8.1   |  2.24.0 |
+| Layer Name | SDL2 | SDL_image | SDL_mixer | SDL_ttf | 
+| ---- | ---- | ---- | ---- | ---- |
+| Version | 2.32.10 | 2.8.8 | 2.8.1 | 2.24.0 |
 
 - cJOSN
 - spdlog
