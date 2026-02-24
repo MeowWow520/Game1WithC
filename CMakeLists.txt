@@ -28,6 +28,8 @@ find_package(SDL2_ttf REQUIRED)
 # Add New Include Path
 add_executable(${TARGET}
                         "src/main.cpp"
+                        "src/Game.cpp"
+                        "src/SceneMain.cpp"
                         "src/cJSON/cJSON.c"
                         )
 
