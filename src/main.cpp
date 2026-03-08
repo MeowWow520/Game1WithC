@@ -1,10 +1,11 @@
-#define SDL_MAIN_HANDLED
 #define _CRT_SECURE_NO_WARNINGS
+#define SDL_MAIN_HANDLED
+
+#include <spdlog/spdlog.h>
 
 
-
-int main(int argc, char** argv)
-{   
-    void(argc), void(argv);
-    return 0;
+int main() 
+{
+    spdlog::info("Main.cpp initialized");
+    
 }
