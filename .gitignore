@@ -2,9 +2,9 @@
 /build
 
 # Ignore the notice file
-/MyNotice.md
+MyNotice.md
 
 # Ignore the output files
-/Game1WithC_Windows.exe
-/Game1WithC_Windows.ilk
-/Game1WithC_Windows.pdb
+Game1WithC_Windows.exe
+Game1WithC_Windows.ilk
+Game1WithC_Windows.pdb
