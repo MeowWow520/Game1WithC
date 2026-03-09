@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10.0)
 project(Game1WithC VERSION 0.1.0 LANGUAGES C CXX)
 
 if (MSVC)
-   add_compile_options("/source-charset:utf-8" "/execution-charset:utf-8")
+   add_compile_options("/utf-8")
 endif()
 
 # Set C++ Standard To 17

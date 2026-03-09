@@ -16,16 +16,15 @@ class Game : public SITemplate<Game> {
 public:
     Game();
     ~Game();
-    int RuningTheGame(int argc, char** argv);
+    int RunningGame(int argc, char** argv);
+    int temp = 0;
 
 private:
+    // Game Config Settings
     int windowWidth = 800;
     int windowHeight = 600;
     bool isRunning = true;
-    SDL_Event sdlEvent;
-	SDL_Point posCursor = { 0,0 };
-	SDL_Window* sdlWindow = nullptr;
-	SDL_Renderer* sdlRenderer = nullptr;
+
 };
 
 #endif // !GAME_H

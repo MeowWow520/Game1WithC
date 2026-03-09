@@ -10,5 +10,6 @@
 int main(int argc, char** argv) 
 {
     spdlog::info(u8"Main.cpp initialized");
-    return Game::Instance()->RuningTheGame(argc, argv);
+    Game gameInstance;
+    return gameInstance.RunningGame(argc, argv);
 }
