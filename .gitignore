@@ -1,8 +1,10 @@
 # Ignore the build directory
 /build
-Notice.txt
+
+# Ignore the notice file
+/MyNotice.txt
 
 # Ignore the output files
-Game1WithC_Windows.exe
-Game1WithC_Windows.ilk
-Game1WithC_Windows.pdb
+/Game1WithC_Windows.exe
+/Game1WithC_Windows.ilk
+/Game1WithC_Windows.pdb
