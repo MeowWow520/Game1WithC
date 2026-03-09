@@ -7,9 +7,13 @@
 
 
 
-int main(int argc, char** argv) 
+int main(int argc, char** argv)
 {
-    spdlog::info(u8"Main.cpp initialized");
-    Game gameInstance;
+    (void)argc;
+    (void)argv;
+    spdlog::info(u8"Entering main()");
+
+    spdlog::info(u8"Created Game instance");
+    Game& gameInstance = Game::getInstance();
     return gameInstance.RunningGame(argc, argv);
 }

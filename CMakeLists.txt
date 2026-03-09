@@ -27,10 +27,9 @@ find_package(SDL2_ttf REQUIRED)
 
 # Add New Include Path
 add_executable(${TARGET}
-                        "src/main.cpp"
                         "src/cJSON/cJSON.c"
+                        "src/main.cpp"
                         "src/Game.cpp"
-                        "src/SingletonInstance.h"
                         )
 
 
