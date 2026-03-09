@@ -2,7 +2,7 @@
 /build
 
 # Ignore the notice file
-/MyNotice.txt
+/MyNotice.md
 
 # Ignore the output files
 /Game1WithC_Windows.exe
