@@ -1,4 +1,7 @@
 #include "Game.h"
+#include "Scene.h"
+#include "SceneMain.h"
+
 
 Game::Game() {
     spdlog::set_level(spdlog::level::info);
@@ -19,6 +22,7 @@ Game::Game() {
 			windowWidth, windowHeight, 
 			SDL_WINDOW_SHOWN);
 	initAssests(sdlWindow != nullptr, u8"SDL Window");
+
 }
 
 Game::~Game() {
@@ -29,6 +33,8 @@ Game::~Game() {
     Mix_Quit();
     IMG_Quit();
     SDL_Quit();
+
+    Clean();
 }
 
 bool Game::initAssests(bool flags, const char* libName) {
@@ -46,24 +52,57 @@ int Game::RunningGame(int argc, char** argv) {
 
     spdlog::info(u8"Entering main game loop");
     while (isRunning) {
-        std::cin >> isRunning;
+        SDL_Event event;
+        currentScene->handleEvents(&event);
+        currentScene->Update();
+        currentScene->Render();
     }
     spdlog::info(u8"Exited main game loop");
     return 0;
 }
 
-void Game::init()
-{
+void Game::Initialize() { }
+
+void Game::handleEvents(SDL_Event* event) {
+    while (SDL_PollEvent(event)) {
+        switch (event->type) {
+            case SDL_QUIT:
+                spdlog::info(u8"Received SDL_QUIT event, exiting game loop");
+                isRunning = false;
+                break;
+            default:
+                break;
+        }
+    }
+
 }
 
-void Game::handleEvents()
-{
+void Game::Update() {
+
 }
 
-void Game::update()
-{
+void Game::Render() {
+    // 清空
+    SDL_RenderClear(sdlRenderer);
+
+    currentScene->Render();
+    // 显示更新
+    SDL_RenderPresent(sdlRenderer);
+
 }
 
-void Game::render()
-{
+void Game::Clean() {
+    if (currentScene != nullptr) {
+        currentScene->Clean();
+        delete currentScene;
+    }
+}
+
+void Game::changeScene(Scene *scene) {
+    if (currentScene != nullptr) {
+        currentScene->Clean();
+        delete currentScene;
+    }
+    currentScene = scene;
+    currentScene->Initialize();
 }

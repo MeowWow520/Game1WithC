@@ -1,5 +1,6 @@
-# Ignore the build directory
+# Ignore directorys
 /build
+/.vscode
 
 # Ignore the notice file
 /MyNotice.md

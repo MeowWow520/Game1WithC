@@ -9,6 +9,7 @@
 #include <SDL_mixer.h>
 #include <SDL_image.h>
 #include <spdlog/spdlog.h>
+#include "Scene.h"
 
 
 class Game {
@@ -17,10 +18,19 @@ public:
     Game();
     ~Game();
     int RunningGame(int argc, char** argv);
-    void init();
-    void handleEvents();
-    void update();
-    void render();
+    void Initialize();
+    void handleEvents(SDL_Event* event);
+    void Update();
+    void Render();
+    void Clean();
+    /**
+     * Change the current scene
+     * @param scene The scene to change to
+     */
+    void changeScene(Scene* scene);
+
+    // Get Variables
+    // Scene getCurrentScene() const { return *currentScene; }
     // 单例模式实现
     static Game& getInstance() {
         static Game instance;
@@ -51,7 +61,8 @@ private:
     // SDL About Variables
     SDL_Window* sdlWindow = nullptr;
     SDL_Renderer* sdlRenderer = nullptr;
-    SDL_Event sdlEvent;
+
+    Scene *currentScene = nullptr;
 
 };
 

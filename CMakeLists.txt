@@ -11,7 +11,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Output Error Message, Such as Undefined Reference
-add_compile_options(/W4)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR})
 
@@ -30,6 +29,8 @@ add_executable(${TARGET}
                         "src/cJSON/cJSON.c"
                         "src/main.cpp"
                         "src/Game.cpp"
+                        "src/Scene.h"
+                        "src/SceneMain.cpp"
                         )
 
 
