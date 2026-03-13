@@ -18,11 +18,13 @@ void SceneMain::Initialize() {
     player.texture = IMG_LoadTexture(gameInstance.getRenderer(), "assets/images/Test_MyHander.jpg");
     if (player.texture == nullptr) {
         spdlog::error(u8"Failed to load player texture: {}", SDL_GetError());
-    } else { spdlog::info(u8"Player texture loaded successfully"); }
-
-    spdlog::info(u8"Initializing SDL_QueryTexture");
-    SDL_QueryTexture(player.texture, NULL, NULL, &player.width, &player.height);
-
+        player.width = 100;
+        player.height = 100;
+    } else { 
+        spdlog::info(u8"Player texture loaded successfully");
+        spdlog::info(u8"Initializing SDL_QueryTexture");
+        SDL_QueryTexture(player.texture, NULL, NULL, &player.width, &player.height);
+    }
     // Setting initial player position and size
     spdlog::info(u8"Setting initial player position and size");
     spdlog::info(u8"Original player width: {}, height: {}", player.width, player.height);
@@ -38,11 +40,16 @@ void SceneMain::handleEvents(SDL_Event *event) { }
 void SceneMain::Update() { }
 
 void SceneMain::Render() { 
+    SDL_SetRenderDrawColor(gameInstance.getRenderer(), 220, 80, 100, 255);
+    SDL_Rect r {200, 200, 400, 300};
+    SDL_RenderFillRect(gameInstance.getRenderer(), &r);
+    /*
     SDL_Rect playerRect = { static_cast<int>(player.position.x), 
                             static_cast<int>(player.position.y), 
                             player.width, 
                             player.height };
     SDL_RenderCopy(gameInstance.getRenderer(), player.texture, NULL, &playerRect);
+    */
 }
 
 void SceneMain::Clean() { 

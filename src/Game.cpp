@@ -5,12 +5,12 @@
 Game::Game() {
     spdlog::set_level(spdlog::level::info);
     spdlog::info(u8"Entering Game::Game()");
-    Game::Initialize();
+    Initialize();
 }
 
 Game::~Game() {
     spdlog::info(u8"Entering Game::~Game()");
-    Game::Clean();
+    Clean();
 }
 
 bool Game::initSDLlibAssests(bool flags, const char* libName) {
@@ -30,9 +30,11 @@ int Game::RunningGame(int argc, char** argv) {
     spdlog::info(u8"Entering main game loop");
     while (isRunning) {
         SDL_Event event;
-        Game::handleEvents(&event);
-        Game::Update();
-        Game::Render();
+        handleEvents(&event);
+        Update();
+        Render();
+        SDL_Delay(16); // Roughly 60 FPS
+        spdlog::info(u8"Called SDl_Delay(16)");
     }
     spdlog::info(u8"Exited main game loop");
     return 0;
@@ -43,9 +45,9 @@ void Game::Initialize() {
 
     // Initialize SDL
     spdlog::info(u8"Initializing SDL_Init");
-    Game::initSDLlibAssests(SDL_Init(SDL_INIT_EVERYTHING) == 0, u8"SDL_Init");
+    initSDLlibAssests(SDL_Init(SDL_INIT_EVERYTHING) == 0, u8"SDL_Init");
     spdlog::info(u8"Initializing IMG_Init");
-    Game::initSDLlibAssests(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) != 0, u8"IMG_Init");
+    initSDLlibAssests(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) != 0, u8"IMG_Init");
     
     // SDL Lib Settings
     sdlWindow = SDL_CreateWindow(windowTitle, 
@@ -54,6 +56,10 @@ void Game::Initialize() {
 			windowWidth, windowHeight, 
 			SDL_WINDOW_SHOWN);
 	initSDLlibAssests(sdlWindow != nullptr, u8"SDL Window");
+
+    spdlog::info(u8"Setting up renderer");
+    sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    initSDLlibAssests(sdlRenderer != nullptr, u8"SDL Renderer");
 
     currentScene = new SceneMain();
     currentScene->Initialize();
@@ -109,6 +115,9 @@ void Game::changeScene(Scene *scene) {
         currentScene->Clean();
         delete currentScene;
     }
-    // currentScene = scene;
-    currentScene->Initialize();
+    currentScene = scene;
+    if (currentScene != nullptr) {
+        spdlog::info(u8"Initializing new scene {}", typeid(*currentScene).name());
+        currentScene->Initialize();
+    } else spdlog::error(u8"New scene is nullptr, no scene to initialize");
 }
