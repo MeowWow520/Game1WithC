@@ -17,3 +17,4 @@ Game1 With C
 
 - cJOSN
 - spdlog
+- Steamworks SDK v1.63
