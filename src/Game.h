@@ -5,11 +5,9 @@
 #include <iostream>
 #include <string>
 #include <SDL.h>
-#include <SDL_ttf.h>
-#include <SDL_mixer.h>
-#include <SDL_image.h>
 #include <spdlog/spdlog.h>
 #include "SceneMain.h"
+
 
 
 class Game {
@@ -29,15 +27,15 @@ public:
      */
     void changeScene(Scene* scene);
 
-    // Get Variables
-    // Scene getCurrentScene() const { return *currentScene; }
     // 单例模式实现
     static Game& getInstance() {
         static Game instance;
         return instance;
     }
-
-protected:
+    // 获取 SDL_Renderer 的静态方法
+    static SDL_Renderer* getRenderer() { return getInstance().sdlRenderer; }
+    static int getWindowWidth() { return getInstance().windowWidth; }
+    static int getWindowHeight() { return getInstance().windowHeight; }
     /**
      * Initialize assets
      * @param flags Initialization flags, recieve true for normal functions
@@ -61,7 +59,6 @@ private:
     // SDL About Variables
     SDL_Window* sdlWindow = nullptr;
     SDL_Renderer* sdlRenderer = nullptr;
-
     Scene *currentScene = nullptr;
 
 };

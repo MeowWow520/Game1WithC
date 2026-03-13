@@ -31,6 +31,7 @@ add_executable(${TARGET}
                         "src/Game.cpp"
                         "src/Scene.h"
                         "src/SceneMain.cpp"
+                        "src/Objects.h"
                         )
 
 
