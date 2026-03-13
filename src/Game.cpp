@@ -3,7 +3,7 @@
 
 
 Game::Game() {
-    spdlog::set_level(spdlog::level::info);
+    spdlog::set_level(spdlog::level::err);
     spdlog::info(u8"Entering Game::Game()");
     Initialize();
 }
