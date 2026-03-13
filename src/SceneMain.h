@@ -5,8 +5,9 @@
 #include <SDL.h>
 #include "Scene.h"
 
-class Game;
 
+
+class Game;
 
 class SceneMain : public Scene {
 public:

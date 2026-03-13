@@ -9,7 +9,7 @@
 #include <SDL_mixer.h>
 #include <SDL_image.h>
 #include <spdlog/spdlog.h>
-#include "Scene.h"
+#include "SceneMain.h"
 
 
 class Game {
@@ -19,7 +19,7 @@ public:
     ~Game();
     int RunningGame(int argc, char** argv);
     void Initialize();
-    void handleEvents(SDL_Event* event);
+    void handleEvents(SDL_Event *event);
     void Update();
     void Render();
     void Clean();
@@ -44,7 +44,7 @@ protected:
      * @param libName Library name
      * @return return true if initialization is successful, false otherwise
      */
-    bool initAssests(bool flags, const char* libName);
+    bool initSDLlibAssests(bool flags, const char* libName);
 
 private:
 
@@ -55,7 +55,7 @@ private:
     // Game Config Settings
     int windowWidth = 1960;
     int windowHeight = 1080;
-    const char* windowTitle = u8"Game1 With C";
+    char windowTitle[256] = u8"Game1 With C";
     bool isRunning = true;
 
     // SDL About Variables

@@ -24,7 +24,7 @@ void setup_console() {
 
 int main(int argc, char** argv) {
     setup_console();
-    spdlog::info(u8"Entering main()");
+    spdlog::info(u8"Entering main.cpp -> main function");
     
     spdlog::info(u8"Created Game instance");
     Game& gameInstance = Game::getInstance();
