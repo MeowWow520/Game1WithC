@@ -38,7 +38,7 @@ public:
     void handleEvents(SDL_Event *event);
 
     // Update() 调用 currentScene 实例的更新函数，更新数据
-    void Update();
+    void Update(float deltaTime);
 
     // 渲染
     void Render();
@@ -86,6 +86,13 @@ private:
 
     // 主循环布尔值
     bool isRunning = true;
+
+    // 每秒帧率
+    int FPS = 60;
+
+    // 每帧间隔时间
+    Uint32 frameTime;
+    float deltaTime; 
 
     // SDL 库的变量
     SDL_Window* sdlWindow = nullptr;

@@ -26,9 +26,12 @@ public:
 
     void Initialize() override;
     void handleEvents(SDL_Event* event) override;
-    void Update() override;
+    void Update(float deltaTime) override;
     void Render() override;
     void Clean() override;
+
+    void keyboardControl(float deltaTime);
+
 private:
     // 在 SceneMain.h 里调用 gameInstance 实例的引用
     Game& gameInstance;

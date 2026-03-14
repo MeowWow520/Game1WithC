@@ -27,11 +27,23 @@ int Game::RunningGame(int argc, char** argv) {
 
     // 主循环
     while (isRunning) {
+
+        auto frameStart = SDL_GetTicks();
+
         SDL_Event event;
         handleEvents(&event);
-        Update();
+        Update(deltaTime);
         Render();
+
+        auto frameEnd = SDL_GetTicks();  
+        auto diff = frameEnd - frameStart;
+
+        if (diff < frameTime) {
+            SDL_Delay(frameTime - diff);  
+            deltaTime = frameTime / 1000.0f;  
+        } else { deltaTime = diff / 1000.0f; }
     }
+    
     spdlog::info(u8"Exited main game loop");
 
     spdlog::info(u8"Game.cpp --> Game::RunningGame() will return 0");
@@ -40,7 +52,7 @@ int Game::RunningGame(int argc, char** argv) {
 
 void Game::Initialize() { 
     spdlog::info(u8"Entering Game::Initialize()");
-    
+    frameTime = 1000 / FPS;
     // 初始化 SDL 库
     spdlog::info(u8"Initializing SDL_Init");
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -91,7 +103,7 @@ void Game::handleEvents(SDL_Event *event) {
     }
 }
 
-void Game::Update() { currentScene->Update(); }
+void Game::Update(float deltaTime) { currentScene->Update(deltaTime); }
 
 void Game::Render() {
     SDL_RenderClear(sdlRenderer);

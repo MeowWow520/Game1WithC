@@ -16,6 +16,8 @@ struct Player
     int width = 0;
     // 玩家高度
     int height = 0;
+    // 玩家速度
+    int speed = 1000;
 };
 
 #endif // OBJECTS_H

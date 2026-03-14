@@ -40,8 +40,8 @@ void SceneMain::Initialize() {
 
 void SceneMain::handleEvents(SDL_Event *event) { return; }
 
-void SceneMain::Update() { 
-    return;
+void SceneMain::Update(float deltaTime) {
+    keyboardControl(deltaTime);
 }
 
 void SceneMain::Render() { 
@@ -62,5 +62,25 @@ void SceneMain::Clean() {
     if (player.texture != nullptr) {
         SDL_DestroyTexture(player.texture);
         spdlog::info(u8"Player texture destroyed");
+    }
+}
+
+void SceneMain::keyboardControl(float deltaTime) {
+    auto keyboardState = SDL_GetKeyboardState(NULL);
+    if (keyboardState[SDL_SCANCODE_W]) {
+        if (player.position.y > 0)
+            player.position.y -= deltaTime * player.speed;
+    }
+    if (keyboardState[SDL_SCANCODE_S]) {
+        if (player.position.y < gameInstance.getWindowHeight() - player.height)
+            player.position.y += deltaTime * player.speed;
+    }
+    if (keyboardState[SDL_SCANCODE_A]) {
+        if (player.position.x > 0)
+            player.position.x -= deltaTime * player.speed;
+    }
+    if (keyboardState[SDL_SCANCODE_D]) {
+        if (player.position.x < gameInstance.getWindowWidth() - player.width)
+            player.position.x += deltaTime * player.speed;
     }
 }
