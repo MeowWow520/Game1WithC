@@ -6,6 +6,9 @@ Game1 With C
 
 [中文文档](./Readme_CN.md) | [English Document](./Readme.md)
 
+## 观光人数
+![img](https://count.getloli.com/@MeowWow520-Game1WithC?name=MeowWow520-Game1WithC&theme=rule34&padding=8&offset=0&align=top&scale=1&pixelated=1&darkmode=auto)
+
 ## 使用编译语言
 - Simple DirectMedia Layer 2
 
