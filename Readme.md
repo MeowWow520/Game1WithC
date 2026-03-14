@@ -1,7 +1,7 @@
 Game1 With C
 ---
 
-![img](https://img.shields.io/badge/Author-MeowWow520-pink)  ![img](https://img.shields.io/badge/License-CC_BY__NC__SA_4.0-orange)  [![Commits](https://img.shields.io/github/commit-activity/w/MeowWow520/Game1WithC)](https://github.com/MeowWow520/Game1WithC) ![Stars](https://img.shields.io/github/stars/MeowWow520) 
+![img](https://img.shields.io/badge/Author-MeowWow520-pink)  ![img](https://img.shields.io/badge/License-GPL-3.0-orange)  [![Commits](https://img.shields.io/github/commit-activity/w/MeowWow520/Game1WithC)](https://github.com/MeowWow520/Game1WithC) ![Stars](https://img.shields.io/github/stars/MeowWow520) 
 
 
 [中文文档](./Readme_CN.md) | [English Document](./Readme.md)
