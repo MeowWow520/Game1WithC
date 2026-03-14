@@ -25,7 +25,7 @@ public:
     void Render() override;
     void Clean() override;
 private:
-    Game& gameInstance;
+    Game* gameInstance;
     Player player;
 };
 

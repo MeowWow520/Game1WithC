@@ -3,8 +3,9 @@
 
 
 
-SceneMain::SceneMain() : gameInstance(Game::getInstance()) {
+SceneMain::SceneMain() {
     spdlog::info(u8"Entering SceneMain::SceneMain()");
+    gameInstance = &Game::getInstance();
 }
 
 SceneMain::~SceneMain() { 
@@ -17,7 +18,7 @@ void SceneMain::Initialize() {
 
 
     spdlog::info(u8"Initializing Player Texture");
-    player.texture = IMG_LoadTexture(gameInstance.getRenderer(), "assets/images/Test_MyHander.jpg");
+    player.texture = IMG_LoadTexture(gameInstance->getRenderer(), "assets/images/Test_MyHander.jpg");
     if (player.texture == nullptr) {
         spdlog::error(u8"Failed to load player texture: {}", SDL_GetError());
     } else { 
@@ -31,10 +32,8 @@ void SceneMain::Initialize() {
     // Setting initial player position and size
     player.width /= 4;
     player.height /= 4;
-    player.position.x = (float)(gameInstance.getWindowWidth() / 2) - (float)(player.width / 2);
-    player.position.y = (float)(gameInstance.getWindowHeight() - player.height);
-    spdlog::info(u8"Setting initial player position and size");
-    spdlog::info(u8"Original player width: {}, height: {}", player.width, player.height);
+    player.position.x = (float)(gameInstance->getWindowWidth() / 2) - (float)(player.width / 2);
+    player.position.y = (float)(gameInstance->getWindowHeight() - player.height);
 
 }
 
@@ -47,10 +46,11 @@ void SceneMain::Render() {
                             static_cast<int>(player.position.y), 
                             player.width, 
                             player.height };
-    if (SDL_RenderCopy(gameInstance.getRenderer(), player.texture, NULL, &playerRect) != 0) {
+    if (SDL_RenderCopy(gameInstance->getRenderer(), player.texture, NULL, &playerRect) != 0) {
         spdlog::error(u8"SDL_RenderCopy Failed");
     }
 
+    SDL_RenderCopy(gameInstance->getRenderer(), player.texture, NULL, &playerRect);
 }
 
 void SceneMain::Clean() { 
