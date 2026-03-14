@@ -36,6 +36,13 @@ public:
     static SDL_Renderer* getRenderer() { return getInstance().sdlRenderer; }
     static int getWindowWidth() { return getInstance().windowWidth; }
     static int getWindowHeight() { return getInstance().windowHeight; }
+    /**
+     * Initialize assets
+     * @param flags Initialization flags, recieve true for normal functions
+     * @param libName Library name
+     * @return return true if initialization is successful, false otherwise
+     */
+    bool initSDLlibAssests(bool flags, const char* libName);
 
 private:
 
