@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-On Learning This. Under Informations Are out-of-date
+I am learning this part. Under informations are out-of-date
 
 | Version | Supported          |
 | ------- | ------------------ |
