@@ -5,7 +5,6 @@
 Game::Game() {
     spdlog::set_level(spdlog::level::info);
     spdlog::info(u8"Entering Game::Game()");
-    Initialize();
 }
 
 Game::~Game() {
@@ -13,55 +12,62 @@ Game::~Game() {
     Clean();
 }
 
-bool Game::initSDLlibAssests(bool flags, const char* libName) {
-    if (!flags) {
-        spdlog::error(u8"{} Called Failed!", libName);
-        return false;
-    }
-    spdlog::info(u8"{} Called Successfully!", libName);
-    return true;
-}
-
 int Game::RunningGame(int argc, char** argv) {
     spdlog::info(u8"Entering Game::RunningGame()");
     (void)argc, (void)argv;
 
 
+    Initialize();
     spdlog::info(u8"Entering main game loop");
     while (isRunning) {
         SDL_Event event;
         handleEvents(&event);
         Update();
         Render();
-        SDL_Delay(16); // Roughly 60 FPS
-        spdlog::info(u8"Called SDl_Delay(16)");
     }
     spdlog::info(u8"Exited main game loop");
+
+
     return 0;
 }
 
 void Game::Initialize() { 
     spdlog::info(u8"Entering Game::Initialize()");
+    
 
     // Initialize SDL
     spdlog::info(u8"Initializing SDL_Init");
-    initSDLlibAssests(SDL_Init(SDL_INIT_EVERYTHING) == 0, u8"SDL_Init");
-    spdlog::info(u8"Initializing IMG_Init");
-    initSDLlibAssests(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) != 0, u8"IMG_Init");
-    
-    // SDL Lib Settings
-    sdlWindow = SDL_CreateWindow(windowTitle, 
-			SDL_WINDOWPOS_CENTERED, 
-			SDL_WINDOWPOS_CENTERED, 
-			windowWidth, windowHeight, 
-			SDL_WINDOW_SHOWN);
-	initSDLlibAssests(sdlWindow != nullptr, u8"SDL Window");
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+        spdlog::error(u8"SDL_Init Initialized Failed");
+        isRunning = false;
+    } else { spdlog::info(u8"Initialized SDL_Init Successfully"); };
 
-    spdlog::info(u8"Setting up renderer");
+    spdlog::info(u8"Initializing IMG_Init");
+    if (IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) == 0) {
+        spdlog::error(u8"IMG_Init Initialized Failed");
+        isRunning = false;
+    } else { spdlog::info(u8"Initialized IMG_Init Successfully"); };
+
+    spdlog::info(u8"Initializing SDL_CreateWindow");
+    sdlWindow = SDL_CreateWindow(windowTitle, 
+			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
+			windowWidth, windowHeight, 
+			SDL_WINDOW_SHOWN );
+	if (sdlWindow == nullptr) {
+        spdlog::error(u8"SDL_CreateWindow Initialized Failed");
+        isRunning = false;
+    } else { spdlog::info(u8"Initialized SDL_CreateWindow Successfully"); };
+
+    spdlog::info(u8"Initializing SDL_CreateRenderer");
     sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    initSDLlibAssests(sdlRenderer != nullptr, u8"SDL Renderer");
+    if (sdlRenderer == nullptr) {
+        spdlog::error(u8"SDL_CreateRenderer Initialized Failed");
+        isRunning = false;
+    } else { spdlog::info(u8"Initialized SDL_CreateRenderer Successfully"); };
+
 
     currentScene = new SceneMain();
+    spdlog::info(u8"currentScene = new SceneMain() Called");
     currentScene->Initialize();
 }
 
@@ -75,9 +81,7 @@ void Game::handleEvents(SDL_Event *event) {
     }
 }
 
-void Game::Update() { 
-    currentScene->Update();
-}
+void Game::Update() { currentScene->Update(); }
 
 void Game::Render() {
     // 清空
@@ -91,11 +95,10 @@ void Game::Render() {
 void Game::Clean() {
     spdlog::info(u8"Entering Game::Clean()");
 
+
     try {
         SDL_DestroyRenderer(sdlRenderer);
         SDL_DestroyWindow(sdlWindow);
-        TTF_Quit();
-        Mix_Quit();
         IMG_Quit();
         SDL_Quit();
     } catch (const std::exception& e) {
@@ -113,7 +116,6 @@ void Game::changeScene(Scene *scene) {
     spdlog::info(u8"Changing scene to {}", typeid(*scene).name());
     if (currentScene != nullptr) {
         currentScene->Clean();
-        delete currentScene;
     }
     currentScene = scene;
     if (currentScene != nullptr) {
