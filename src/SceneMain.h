@@ -11,7 +11,12 @@
 #include "Objects.h"
 
 
-
+// 声明 Game 类，防止在 include 的时候循环引入
+/**
+ * 编译器：请输入文本
+ * Game.h #include "Scene.h" 
+ * SceneMain.h #include "Game.h"
+ */
 class Game;
 
 class SceneMain : public Scene {
@@ -25,7 +30,9 @@ public:
     void Render() override;
     void Clean() override;
 private:
-    Game* gameInstance;
+    // 在 SceneMain.h 里调用 gameInstance 实例的引用
+    Game& gameInstance;
+    // 玩家实例
     Player player;
 };
 
