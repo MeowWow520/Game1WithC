@@ -25,7 +25,7 @@ void setup_console() {
 int main(int argc, char** argv) {
     setup_console();
     spdlog::info(u8"Entering main.cpp -> main function");
-    spdlog::info(u8"There is branch Debug-Solve-NotRespond-1.01.0");
+    spdlog::info(u8"There is branch main");
     
     spdlog::info(u8"Created Game instance");
     Game& gameInstance = Game::getInstance();
