@@ -1,1 +1,6 @@
-This is a test install ifm
+I am MeowWow520, and I am the author of the game "Game1WithC".
+This game is a simple 2D game made with C language.
+Using WASD keys to move the character(My icon).
+This is a free game, if you download this as charge, you are trapped into a lie.
+
+Veiw the source code on GitHub: https://github.com/MeowWow520/Game1WithC
