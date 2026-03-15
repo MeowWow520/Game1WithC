@@ -26,8 +26,8 @@ void SceneMain::Initialize() {
                             &projectilePlayerTemplate.height); 
         spdlog::info(u8"[init] projectilePlayerTemplate called SDL_QueryTexture()");
     }
-    projectilePlayerTemplate.width /= projectilePlayerTemplate.zoom;
-    projectilePlayerTemplate.height /= projectilePlayerTemplate.zoom;
+    projectilePlayerTemplate.width *= projectilePlayerTemplate.zoom;
+    projectilePlayerTemplate.height *= projectilePlayerTemplate.zoom;
 
 
     // 初始化背景
@@ -167,7 +167,6 @@ void SceneMain::shootPlayer() {
     projectile->position.y = player.position.y;
     // 添加到活动子弹列表
     projectilesPlayer.push_back(projectile);
-    spdlog::info(u8"[test] A new projectilePlayer has been created");
 }
 
 void SceneMain::updatePlayerProjectiles(float deltaTime)
@@ -180,7 +179,6 @@ void SceneMain::updatePlayerProjectiles(float deltaTime)
         // 检查子弹是否超出屏幕
         if (projectile->position.y + margin < 0) {
             delete projectile;
-            spdlog::info(u8"A projectile from player been destroyed");
             it = projectilesPlayer.erase(it);
         } else { ++it; }
     }
