@@ -9,7 +9,7 @@ Game1 With C
 ## Visitors
 ![img](https://count.getloli.com/@MeowWow520-Game1WithC?name=MeowWow520-Game1WithC&theme=rule34&padding=8&offset=0&align=top&scale=1&pixelated=1&darkmode=auto)
 
-## Using Encode Language
+## Used Encode Language
 - Simple DirectMedia Layer 2
 
 | Layer Name | SDL2 | SDL_image | SDL_mixer | SDL_ttf | 
