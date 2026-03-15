@@ -1,6 +1,28 @@
-I am MeowWow520, and I am the author of the game "Game1WithC".
-This game is a simple 2D game made with C language.
-Using WASD keys to move the character(My icon).
-This is a free game, if you download this as charge, you are trapped into a lie.
+--------------------
+About me
+--------------------
+I am MeowWow520, from China. I was exposed to computers at a very young age, and back then, the computer system was Windows XP. 
+I am an introverted person, a rational anime fan. I like to "hide" in a corner and daydream alone.
 
+
+--------------------
+About the game
+--------------------
+This game is a simple 2D game made with C language.
+Using WASD keys to move the character.
+Using E key to shoot a rocket.
+This is a free game, if you download this as charge, you are trapped into a lie.
 Veiw the source code on GitHub: https://github.com/MeowWow520/Game1WithC
+
+
+--------------------
+About assets
+--------------------
+The background assets were get from itch.io
+link --> https://free-game-assets.itch.io/free-sky-with-clouds-background-pixel-art-set
+Author's licenses --> https://craftpix.net/file-licenses/
+
+The character assets were get from itch.io
+link --> https://foozlecc.itch.io/void-main-ship
+Author's licenses --> CC0
+licenses Link --> http://creativecommons.org/publicdomain/zero/1.0/
