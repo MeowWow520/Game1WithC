@@ -12,8 +12,6 @@ Game1 With C
 ## Using Encode Language
 - Simple DirectMedia Layer 2
 
-**SDL2 is a cross-platform development library** designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware via OpenGL and Direct3D. It is used by video game developers, programmers who need fine control over their graphics hardware, and researchers who need to manipulate images and sounds efficiently. SDL provides a simple way to access the features of the hardware while still allowing you to write portable code.
-
 | Layer Name | SDL2 | SDL_image | SDL_mixer | SDL_ttf | 
 | ---- | ---- | ---- | ---- | ---- |
 | Version | 2.32.10 | 2.8.8 | 2.8.1 | 2.24.0 |
@@ -21,3 +19,6 @@ Game1 With C
 - cJOSN
 - spdlog
 - Steamworks SDK v1.63
+
+## Used Tools
+- Inno Setup Script
