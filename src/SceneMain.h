@@ -37,6 +37,7 @@ private:
     Game& gameInstance;
     // 玩家实例
     Player player;
+    Background background;
 };
 
 #endif // SCENEMAIN_H
