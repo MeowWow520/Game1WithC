@@ -2,6 +2,7 @@
 
 #ifndef SCENEMAIN_H
 #define SCENEMAIN_H
+#include <list>
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
@@ -31,6 +32,9 @@ public:
     void Clean() override;
 
     void keyboardControl(float deltaTime);
+    void shootPlayer();
+    void updatePlayerProjectiles(float deltaTime);
+    void renderPlayerProjectiles();
 
 private:
     // 在 SceneMain.h 里调用 gameInstance 实例的引用
@@ -38,6 +42,13 @@ private:
     // 玩家实例
     Player player;
     Background background;
+
+    // 创建子弹模板
+    ProjectilePlayer projectilePlayerTemplate;
+
+    // 存储活动子弹的列表
+    std::list<ProjectilePlayer*> projectilesPlayer;  
+
 };
 
 #endif // SCENEMAIN_H
