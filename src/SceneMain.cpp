@@ -16,7 +16,7 @@ void SceneMain::Initialize() {
     spdlog::info(u8"Entering SceneMain::Initialize()");
 
     spdlog::info(u8"Initializing player.texture");
-    player.texture = IMG_LoadTexture(gameInstance.getRenderer(), "assets/images/Test_MyHander.jpg");
+    player.texture = IMG_LoadTexture(gameInstance.getRenderer(), "assets/Foozle_MainShip/Main Ship/Main Ship - Bases/PNGs/Main Ship - Base - Full health.png");
     if (player.texture == nullptr) {
         spdlog::error(u8"Failed to load player texture: {}", SDL_GetError());
     } else { 
@@ -28,8 +28,8 @@ void SceneMain::Initialize() {
 
 
     // 设置默认玩家位置
-    player.width /= 4;
-    player.height /= 4;
+    player.width *= player.zoom;
+    player.height *= player.zoom;
     player.position.x = (float)(gameInstance.getWindowWidth() / 2) - (float)(player.width / 2);
     player.position.y = (float)(gameInstance.getWindowHeight() - player.height);
     spdlog::info(u8"Setting initial player position and size");
@@ -68,19 +68,19 @@ void SceneMain::Clean() {
 void SceneMain::keyboardControl(float deltaTime) {
     auto keyboardState = SDL_GetKeyboardState(NULL);
     if (keyboardState[SDL_SCANCODE_W]) {
-        if (player.position.y > 0)
+        if (player.position.y > - player.edgeUP * player.zoom)
             player.position.y -= deltaTime * player.speed;
     }
     if (keyboardState[SDL_SCANCODE_S]) {
-        if (player.position.y < gameInstance.getWindowHeight() - player.height)
+        if (player.position.y < gameInstance.getWindowHeight() - player.height + player.edgeDown * player.zoom)
             player.position.y += deltaTime * player.speed;
     }
     if (keyboardState[SDL_SCANCODE_A]) {
-        if (player.position.x > 0)
+        if (player.position.x > - player.edgeLeft * player.zoom)
             player.position.x -= deltaTime * player.speed;
     }
     if (keyboardState[SDL_SCANCODE_D]) {
-        if (player.position.x < gameInstance.getWindowWidth() - player.width)
+        if (player.position.x < gameInstance.getWindowWidth() - player.width + (player.edgeRight * player.zoom))
             player.position.x += deltaTime * player.speed;
     }
 }

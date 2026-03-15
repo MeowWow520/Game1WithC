@@ -18,6 +18,14 @@ struct Player
     int height = 0;
     // 玩家速度
     int speed = 1000;
+    // 图片边框像素
+    int edgeUP = 10;
+    int edgeDown = 10;
+    int edgeLeft = 8;
+    int edgeRight = 8;
+    int zoom = 3;
+    // 玩家血量
+    int health = 4;
 };
 
 #endif // OBJECTS_H

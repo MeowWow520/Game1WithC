@@ -76,10 +76,10 @@ private:
 
     // 游戏参数设置
     // 窗口宽度
-    int windowWidth = 1960;
+    int windowWidth = 800;
 
     // 窗口高度
-    int windowHeight = 1080;
+    int windowHeight = 1000;
 
     // 窗口标题
     char windowTitle[256] = u8"Game1 With C";
