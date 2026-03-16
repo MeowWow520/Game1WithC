@@ -8,16 +8,11 @@
 
 struct Player {
 
-    // 玩家的“材质”
     SDL_Texture* texture = nullptr;
-    // 玩家位置的值
     SDL_FPoint position = {0.00f, 0.00f};
-    // 玩家宽度 & 高度
     int width = 0;
     int height = 0;
-    // 玩家速度
     int speed = 800;
-    // 图片边框像素 偏移像素
     int edgeUP = 10;
     int edgeDown = 10;
     int edgeLeft = 8;
@@ -25,7 +20,6 @@ struct Player {
     int zoom = 2;
     int deviation = 2;
     int deviationZoom = 2;
-    // 玩家血量
     int health = 4;
     Uint32 coolDown = 1000;
     Uint32 lastShootTime = 0;
@@ -34,13 +28,10 @@ struct Player {
 
 struct Background {
 
-    // 背景的“材质”
     SDL_Texture* texture = nullptr;
     SDL_FPoint position = {0.00f, 0.00f};
-    // 背景宽度 & 高度
     int width = 0;
     int height = 0;
-    // 图片边框像素
     int edgeUP = 10;
     int edgeDown = 10;
     int edgeLeft = 8;
@@ -56,7 +47,6 @@ struct ProjectilePlayer {
     int width = 0;
     int height = 0;
     int speed = 400;
-    // 图片边框像素 偏移像素
     int edgeUP = 9;
     int edgeDown = 9;
     int edgeLeft = 12;
@@ -64,6 +54,44 @@ struct ProjectilePlayer {
     int zoom = 2;
     int deviation = 1;
     int deviationZoom = 1;
+
+};
+
+struct Enemy {
+
+    SDL_Texture* texture = nullptr;
+    SDL_FPoint position = {0, 0};
+    int width = 0;
+    int height = 0;
+    int speed = 200;
+    int edgeUP = 10;
+    int edgeDown = 10;
+    int edgeLeft = 8;
+    int edgeRight = 8;
+    int zoom = 2;
+    int deviation = 2;
+    int deviationZoom = 2;
+    int health = 2;
+    Uint32 coolDown = 1000;
+    Uint32 lastShootTime = 0;
+
+};
+
+struct ProjectileEnemy {
+
+    SDL_Texture* texture = nullptr;
+    SDL_FPoint position = {0.00f, 0.00f};
+    SDL_FPoint direction = {0, 0};
+    int width = 0;
+    int height = 0;
+    int speed = 200;
+    int edgeUP = 25;
+    int edgeDown = 7;
+    int edgeLeft = 18;
+    int edgeRight = 18;
+    int zoom = 2;
+    int deviation = 0;
+    int deviationZoom = 0;
 
 };
 

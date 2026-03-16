@@ -3,6 +3,8 @@
 #ifndef SCENEMAIN_H
 #define SCENEMAIN_H
 #include <list>
+#include <random>
+#include <cmath>
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
@@ -35,7 +37,14 @@ public:
     void shootPlayer();
     void updatePlayerProjectiles(float deltaTime);
     void renderPlayerProjectiles();
-
+    void spawEnemy();
+    void updateEnemies(float deltaTime);
+    void updateEnemyProjectiles(float deltaTime);
+    void renderEnemies();
+    void renderEnemyProjectiles();
+    void shootEnemy(Enemy* enemy);
+    SDL_FPoint getDirection(Enemy* enemy); 
+    
 private:
     // 在 SceneMain.h 里调用 gameInstance 实例的引用
     Game& gameInstance;
@@ -43,12 +52,20 @@ private:
     Player player;
     Background background;
 
-    // 创建子弹模板
+    // 创建模板
     ProjectilePlayer projectilePlayerTemplate;
+    ProjectileEnemy projectileEnemyTemplate;
+    Enemy enemyTemplate;
 
-    // 存储活动子弹的列表
+    // 玩家子弹和敌人子弹
     std::list<ProjectilePlayer*> projectilesPlayer;  
+    std::list<ProjectileEnemy*> projectilesEnemy;
+    std::list<Enemy*> enemies;
 
+    // 随机数相关成员
+    std::mt19937 gen;
+    std::uniform_real_distribution<float> dis;
 };
+
 
 #endif // SCENEMAIN_H
