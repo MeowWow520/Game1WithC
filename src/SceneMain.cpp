@@ -146,7 +146,7 @@ void SceneMain::Render() {
         spdlog::error(u8"backgroundRect called SDL_RenderCopy failed");
     }
 
-    
+
     if (!isDead) {
         SDL_Rect playerRect = { static_cast<int>(player.position.x), 
                                 static_cast<int>(player.position.y), 
@@ -265,6 +265,7 @@ void SceneMain::shootPlayer() {
     projectilesPlayer.push_back(projectile);
 }
 
+// done
 void SceneMain::updatePlayerProjectiles(float deltaTime) {
     int margin = 32;
     for (auto it = projectilesPlayer.begin(); it != projectilesPlayer.end();) {
@@ -278,25 +279,26 @@ void SceneMain::updatePlayerProjectiles(float deltaTime) {
         } else {
             bool hit = false;
             for (auto enemy : enemies) {
+                // has done
                 SDL_Rect enemyRect = {
                     static_cast<int>(enemy->position.x),
                     static_cast<int>(enemy->position.y),
-                    enemy->width, enemy->height };
+                    enemy->hitboxWidth, enemy->hitboxHeight };
+                // has done
                 SDL_Rect projectileRect = {
                     static_cast<int>(projectile->position.x),
                     static_cast<int>(projectile->position.y),
-                    projectile->width, projectile->height };
+                    projectile->hitboxWidth, projectile->hitboxHeight };
                 
                     if (SDL_HasIntersection(&enemyRect, &projectileRect)) {
-                    enemy->currentHealth -= projectile->damage;
-                    delete projectile;
-                    it = projectilesPlayer.erase(it);
-                    hit = true;
-                    break; 
-                }
-
-                if (!hit) ++it;
+                        enemy->currentHealth -= projectile->damage;
+                        hit = true;
+                        delete projectile;
+                        it = projectilesPlayer.erase(it);
+                        break; 
+                    }
             }
+            if (!hit) { ++it; }
         }
     }
 }
@@ -344,19 +346,22 @@ void SceneMain::shootEnemy(Enemy *enemy) {
 
 }
 
+// done
 void SceneMain::updatePlayer(float deltaTime) {
 
     if (isDead) return;
     if (player.currentHealth <= 0) isDead = true;
-    for (auto enemy : enemies){
+    for (auto enemy : enemies) {
+        // has done
         SDL_Rect enemyRect = {
             static_cast<int>(enemy->position.x),
             static_cast<int>(enemy->position.y),
-            enemy->width, enemy->height };
+            enemy->hitboxWidth, enemy->hitboxHeight };
+        // has done
         SDL_Rect playerRect = {
             static_cast<int>(player.position.x),
             static_cast<int>(player.position.y),
-            player.width, player.height };
+            player.hitboxWidth, player.hitboxHeight };
         if (SDL_HasIntersection(&playerRect, &enemyRect)) { 
             player.currentHealth -= 1;
             enemy->currentHealth = 0;
@@ -390,6 +395,7 @@ void SceneMain::updateEnemies(float deltaTime) {
 
 }
 
+// done
 void SceneMain::updateEnemyProjectiles(float deltaTime) {
 
     auto margin = 32;
@@ -404,14 +410,16 @@ void SceneMain::updateEnemyProjectiles(float deltaTime) {
             delete projectile;
             it = projectilesEnemy.erase(it);
         } else {
+            // has done
             SDL_Rect projectileRect = {
                 static_cast<int>(projectile->position.x),
                 static_cast<int>(projectile->position.y),
-                projectile->width, projectile->height };
+                projectile->hitboxWidth, projectile->hitboxHeight };
+            // has done
             SDL_Rect playerRect = {
                 static_cast<int>(player.position.x),
                 static_cast<int>(player.position.y),
-                player.width, player.height };
+                player.hitboxWidth, player.hitboxHeight };
             if (SDL_HasIntersection(&projectileRect, &playerRect) && !isDead){
                 player.currentHealth -= projectile->damage;
                 delete projectile;

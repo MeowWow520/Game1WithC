@@ -13,6 +13,8 @@ struct Player {
     int width = 0;
     int height = 0;
     int speed = 800;
+    int hitboxWidth = 12;
+    int hitboxHeight = 26;
     int edgeUP = 10;
     int edgeDown = 10;
     int edgeLeft = 8;
@@ -46,6 +48,8 @@ struct ProjectilePlayer {
     SDL_FPoint position = {0.00f, 0.00f};
     int width = 0;
     int height = 0;
+    int hitboxWidth = 5;
+    int hitboxHeight = 15;
     int speed = 400;
     int edgeUP = 9;
     int edgeDown = 9;
@@ -65,6 +69,8 @@ struct Enemy {
     int width = 0;
     int height = 0;
     int speed = 200;
+    int hitboxWidth = 12;
+    int hitboxHeight = 15;
     int edgeUP = 10;
     int edgeDown = 10;
     int edgeLeft = 8;
@@ -86,6 +92,8 @@ struct ProjectileEnemy {
     int width = 0;
     int height = 0;
     int speed = 200;
+    int hitboxWidth = 10;
+    int hitboxHeight = 13;
     int edgeUP = 25;
     int edgeDown = 7;
     int edgeLeft = 18;
