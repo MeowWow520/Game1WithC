@@ -133,6 +133,7 @@ void SceneMain::Update(float deltaTime) {
     updateEnemyProjectiles(deltaTime);
     spawEnemy();
     updateEnemies(deltaTime);
+    updatePlayer(deltaTime);
 }
 
 void SceneMain::Render() {
@@ -145,14 +146,15 @@ void SceneMain::Render() {
         spdlog::error(u8"backgroundRect called SDL_RenderCopy failed");
     }
 
-    SDL_Rect playerRect = { static_cast<int>(player.position.x), 
-                            static_cast<int>(player.position.y), 
-                            player.width, 
-                            player.height };
-    if (SDL_RenderCopy(gameInstance.getRenderer(), player.texture, NULL, &playerRect) != 0) {
-        spdlog::error(u8"playerRect called SDL_RenderCopy failed");
+    
+    if (!isDead) {
+        SDL_Rect playerRect = { static_cast<int>(player.position.x), 
+                                static_cast<int>(player.position.y), 
+                                player.width,  player.height };
+        if (SDL_RenderCopy(gameInstance.getRenderer(), player.texture, NULL, &playerRect) != 0) {
+            spdlog::error(u8"playerRect called SDL_RenderCopy failed");
+        }
     }
-
     renderPlayerProjectiles();
     renderEnemyProjectiles();
     renderEnemies();
@@ -273,7 +275,29 @@ void SceneMain::updatePlayerProjectiles(float deltaTime) {
         if (projectile->position.y + margin < 0) {
             delete projectile;
             it = projectilesPlayer.erase(it);
-        } else { ++it; }
+        } else {
+            bool hit = false;
+            for (auto enemy : enemies) {
+                SDL_Rect enemyRect = {
+                    static_cast<int>(enemy->position.x),
+                    static_cast<int>(enemy->position.y),
+                    enemy->width, enemy->height };
+                SDL_Rect projectileRect = {
+                    static_cast<int>(projectile->position.x),
+                    static_cast<int>(projectile->position.y),
+                    projectile->width, projectile->height };
+                
+                    if (SDL_HasIntersection(&enemyRect, &projectileRect)) {
+                    enemy->currentHealth -= projectile->damage;
+                    delete projectile;
+                    it = projectilesPlayer.erase(it);
+                    hit = true;
+                    break; 
+                }
+
+                if (!hit) ++it;
+            }
+        }
     }
 }
 
@@ -320,6 +344,29 @@ void SceneMain::shootEnemy(Enemy *enemy) {
 
 }
 
+void SceneMain::updatePlayer(float deltaTime) {
+
+    if (isDead) return;
+    if (player.currentHealth <= 0) isDead = true;
+    for (auto enemy : enemies){
+        SDL_Rect enemyRect = {
+            static_cast<int>(enemy->position.x),
+            static_cast<int>(enemy->position.y),
+            enemy->width, enemy->height };
+        SDL_Rect playerRect = {
+            static_cast<int>(player.position.x),
+            static_cast<int>(player.position.y),
+            player.width, player.height };
+        if (SDL_HasIntersection(&playerRect, &enemyRect)) { 
+            player.currentHealth -= 1;
+            enemy->currentHealth = 0;
+        }
+    }
+
+}
+
+void SceneMain::enemyExplode(Enemy *enemy) { delete enemy; }
+
 void SceneMain::updateEnemies(float deltaTime) {
 
     auto currentTime = SDL_GetTicks();
@@ -332,8 +379,12 @@ void SceneMain::updateEnemies(float deltaTime) {
         } else {
             if (currentTime - enemy->lastShootTime > enemy->coolDown) {
                 shootEnemy(enemy);
-                enemy->lastShootTime = currentTime; }
-            ++it;
+                enemy->lastShootTime = currentTime;
+            }
+            if (enemy->currentHealth <= 0) {
+                enemyExplode(enemy);
+                it = enemies.erase(it);
+            } else { ++it; }
         }
     }
 
@@ -352,7 +403,22 @@ void SceneMain::updateEnemyProjectiles(float deltaTime) {
             projectile->position.x > gameInstance.getWindowWidth() + margin) {
             delete projectile;
             it = projectilesEnemy.erase(it);
-        } else { ++it; }
+        } else {
+            SDL_Rect projectileRect = {
+                static_cast<int>(projectile->position.x),
+                static_cast<int>(projectile->position.y),
+                projectile->width, projectile->height };
+            SDL_Rect playerRect = {
+                static_cast<int>(player.position.x),
+                static_cast<int>(player.position.y),
+                player.width, player.height };
+            if (SDL_HasIntersection(&projectileRect, &playerRect) && !isDead){
+                player.currentHealth -= projectile->damage;
+                delete projectile;
+                it = projectilesEnemy.erase(it);
+            } else { ++it; }
+        }
+
     }
 
 }

@@ -20,7 +20,7 @@ struct Player {
     int zoom = 2;
     int deviation = 2;
     int deviationZoom = 2;
-    int health = 4;
+    int currentHealth = 4;
     Uint32 coolDown = 1000;
     Uint32 lastShootTime = 0;
 
@@ -54,6 +54,7 @@ struct ProjectilePlayer {
     int zoom = 2;
     int deviation = 1;
     int deviationZoom = 1;
+    int damage = 1;
 
 };
 
@@ -71,7 +72,7 @@ struct Enemy {
     int zoom = 2;
     int deviation = 2;
     int deviationZoom = 2;
-    int health = 2;
+    int currentHealth = 4;
     Uint32 coolDown = 1000;
     Uint32 lastShootTime = 0;
 
@@ -92,6 +93,7 @@ struct ProjectileEnemy {
     int zoom = 2;
     int deviation = 0;
     int deviationZoom = 0;
+    int damage = 1;
 
 };
 

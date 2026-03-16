@@ -43,6 +43,9 @@ public:
     void renderEnemies();
     void renderEnemyProjectiles();
     void shootEnemy(Enemy* enemy);
+    void updatePlayer(float deltaTime);
+    void enemyExplode(Enemy* enemy);
+
     SDL_FPoint getDirection(Enemy* enemy); 
     
 private:
@@ -65,6 +68,8 @@ private:
     // 随机数相关成员
     std::mt19937 gen;
     std::uniform_real_distribution<float> dis;
+
+    bool isDead = false;
 };
 
 

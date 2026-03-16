@@ -50,6 +50,7 @@ private:
     int FPS = 60;
     Uint32 frameTime;
     float deltaTime; 
+    int isDead = false;
 
     // SDL 库的变量
     SDL_Window* sdlWindow = nullptr;
