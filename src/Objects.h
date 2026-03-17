@@ -51,10 +51,6 @@ struct ProjectilePlayer {
     int hitboxWidth = 5;
     int hitboxHeight = 15;
     int speed = 400;
-    int edgeUP = 9;
-    int edgeDown = 9;
-    int edgeLeft = 12;
-    int edgeRight = 12;
     int zoom = 2;
     int deviation = 1;
     int deviationZoom = 1;
@@ -71,10 +67,6 @@ struct Enemy {
     int speed = 200;
     int hitboxWidth = 12;
     int hitboxHeight = 15;
-    int edgeUP = 10;
-    int edgeDown = 10;
-    int edgeLeft = 8;
-    int edgeRight = 8;
     int zoom = 2;
     int deviation = 2;
     int deviationZoom = 2;
