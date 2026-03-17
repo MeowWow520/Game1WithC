@@ -2,6 +2,7 @@
 #include "Game.h"
 
 
+
 // 引入 gameInstance
 SceneMain::SceneMain() : gameInstance(Game::getInstance()) { }
 
@@ -283,25 +284,32 @@ void SceneMain::renderEnemies() {
 void SceneMain::shootEnemy(Enemy *enemy) {
 
     auto projectile = new ProjectileEnemy(projectileEnemyTemplate);
-    projectile->position.x = enemy->position.x + enemy->width / 2 - projectile->width / 2;
+    projectile->position.x = enemy->position.x + (enemy->width * enemy->zoom- projectile->width * projectile->zoom) / 2 ;
     projectile->position.y = enemy->position.y + enemy->height / 2 - projectile->height / 2;
     projectile->direction = getDirection(enemy);
     projectilesEnemy.push_back(projectile);
 
 }
 
+// 逻辑大概是对的了
 void SceneMain::updatePlayer(float deltaTime) {
 
     if (isDead) return;
     if (player.currentHealth <= 0) isDead = true;
     for (auto enemy : enemies) {
+        // 敌人的碰撞箱图形的左上角 xy 坐标
+        int enemyRectPosX = enemy->position.x + (enemy->width - enemy->hitboxWidth / 2 ) * enemy->zoom;
+        int enemyRextPosY = enemy->position.y + (enemy->height - enemy->hitboxHeight) / 2 * enemy->zoom;
         SDL_Rect enemyRect = {
-            static_cast<int>(enemy->position.x),
-            static_cast<int>(enemy->position.y),
+            static_cast<int>(enemyRectPosX),
+            static_cast<int>(enemyRextPosY),
             enemy->hitboxWidth, enemy->hitboxHeight };
+        // 玩家的碰撞箱图形的左上角 xy 坐标
+        int playerRectPosX = player.position.x + (player.width - player.hitboxWidth) / 2 * player.zoom;
+        int playerRectPosY = player.position.y + (player.height - player.hitboxHeight) / 2 * player.zoom;
         SDL_Rect playerRect = {
-            static_cast<int>(player.position.x),
-            static_cast<int>(player.position.y),
+            static_cast<int>(playerRectPosX),
+            static_cast<int>(playerRectPosY),
             player.hitboxWidth, player.hitboxHeight };
         if (SDL_HasIntersection(&playerRect, &enemyRect)) { 
             player.currentHealth -= 1;
@@ -338,7 +346,7 @@ void SceneMain::updateEnemies(float deltaTime) {
 
 void SceneMain::updateEnemyProjectiles(float deltaTime) {
 
-    auto margin = 32;
+    auto margin = 64;
     for (auto it = projectilesEnemy.begin(); it != projectilesEnemy.end();) {
         auto projectile = *it;
         projectile->position.x += projectile->speed * projectile->direction.x * deltaTime;
@@ -350,15 +358,19 @@ void SceneMain::updateEnemyProjectiles(float deltaTime) {
             delete projectile;
             it = projectilesEnemy.erase(it);
         } else {
-            
+            // 敌人子弹的碰撞箱图形的左上角 xy 坐标
+            int projectileRectPosX = projectile->position.x + (projectile->width - projectile->hitboxWidth / 2 ) * projectile->zoom;
+            int projectileRectPosY = projectile->position.y + (projectile->height - projectile->hitboxHeight) / 2 * projectile->zoom;
             SDL_Rect projectileRect = {
-                static_cast<int>(projectile->position.x),
-                static_cast<int>(projectile->position.y),
+                static_cast<int>(projectileRectPosX),
+                static_cast<int>(projectileRectPosY),
                 projectile->hitboxWidth, projectile->hitboxHeight };
-            
+            // 玩家的碰撞箱图形的左上角 xy 坐标
+            int playerRectPosX = player.position.x + (player.width - player.hitboxWidth) / 2 * player.zoom;
+            int playerRectPosY = player.position.y + (player.height - player.hitboxHeight) / 2 * player.zoom;
             SDL_Rect playerRect = {
-                static_cast<int>(player.position.x),
-                static_cast<int>(player.position.y),
+                static_cast<int>(playerRectPosX),
+                static_cast<int>(playerRectPosY),
                 player.hitboxWidth, player.hitboxHeight };
             if (SDL_HasIntersection(&projectileRect, &playerRect) && !isDead){
                 player.currentHealth -= projectile->damage;

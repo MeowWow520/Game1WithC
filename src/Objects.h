@@ -44,11 +44,11 @@ struct ProjectilePlayer {
 
     SDL_Texture* texture = nullptr;
     SDL_FPoint position = {0.00f, 0.00f};
+    int speed = 400;
     int width = 0;
     int height = 0;
     int hitboxWidth = 6;
     int hitboxHeight = 16;
-    int speed = 400;
     int zoom = 2;
     int damage = 1;
 
@@ -79,18 +79,12 @@ struct ProjectileEnemy {
     SDL_Texture* texture = nullptr;
     SDL_FPoint position = {0.00f, 0.00f};
     SDL_FPoint direction = {0, 0};
+    int speed = 200;
     int width = 0;
     int height = 0;
-    int speed = 200;
-    int hitboxWidth = 10;
-    int hitboxHeight = 13;
-    int edgeUP = 25;
-    int edgeDown = 7;
-    int edgeLeft = 18;
-    int edgeRight = 18;
+    int hitboxWidth = 6;
+    int hitboxHeight = 16;
     int zoom = 2;
-    int deviation = 0;
-    int deviationZoom = 0;
     int damage = 1;
 
 };
