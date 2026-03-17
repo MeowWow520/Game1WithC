@@ -155,32 +155,26 @@ void SceneMain::Clean() {
 }
 
 
-// 计划重写
+// 逻辑大概是对的了
 void SceneMain::keyboardControl(float deltaTime) {
     auto keyboardState = SDL_GetKeyboardState(NULL);
     // 控制玩家移动
     if (keyboardState[SDL_SCANCODE_W]) {
-        if (player.position.y > - player.edgeUP * player.zoom + player.deviation)
+        if (player.position.y > - player.edgeUP * player.zoom)
             player.position.y -= deltaTime * player.speed;
     }
     if (keyboardState[SDL_SCANCODE_S]) {
-        /**
-         * 不明的BUG
-         * 不知到为什么，玩家的位置会超过边界
-         */
         if (player.position.y < gameInstance.getWindowHeight() - 
-                                player.height + player.edgeDown * player.zoom - 
-                                player.deviation)
+                                (player.height - player.edgeDown ) * player.zoom)
             player.position.y += deltaTime * player.speed;
     }
     if (keyboardState[SDL_SCANCODE_A]) {
-        if (player.position.x > - player.edgeLeft * player.zoom - player.deviation)
+        if (player.position.x > - player.edgeLeft * player.zoom )
             player.position.x -= deltaTime * player.speed;
     }
     if (keyboardState[SDL_SCANCODE_D]) {
         if (player.position.x < gameInstance.getWindowWidth() - 
-                                player.width + (player.edgeRight * player.zoom) - 
-                                player.deviation * player.deviationZoom)
+                                (player.width - player.edgeRight) * player.zoom)
             player.position.x += deltaTime * player.speed;
     }
     // 控制子弹发射
@@ -193,16 +187,20 @@ void SceneMain::keyboardControl(float deltaTime) {
     }
 }
 
+// 逻辑大概是对的了
 void SceneMain::shootPlayer() {
     // 创建新子弹
     auto projectile = new ProjectilePlayer(projectilePlayerTemplate);
-    // 定位在飞机顶部中央
-    projectile->position.x = player.position.x + player.width / 2 - projectile->width / 2;
-    projectile->position.y = player.position.y;
+    // 定位在碰撞箱顶部中央
+    projectile->position.x = player.position.x + 
+                             player.width / 2 * player.zoom -
+                             projectile->width / 2 * projectile->zoom;
+    projectile->position.y = player.position.y + (player.height - player.hitboxHeight) / 2 * player.zoom;
     // 添加到活动子弹列表
     projectilesPlayer.push_back(projectile);
 }
 
+// 逻辑大概是对的了
 void SceneMain::updatePlayerProjectiles(float deltaTime) {
     int margin = 32;
     for (auto it = projectilesPlayer.begin(); it != projectilesPlayer.end();) {
@@ -210,19 +208,30 @@ void SceneMain::updatePlayerProjectiles(float deltaTime) {
         // 更新子弹位置
         projectile->position.y -= projectile->speed * deltaTime;
         // 检查子弹是否超出屏幕
-        if (projectile->position.y + margin < 0) {
+        if (projectile->position.y  < - projectile->height * projectile->zoom - margin) {
             delete projectile;
             it = projectilesPlayer.erase(it);
         } else {
             bool hit = false;
             for (auto enemy : enemies) {
+                // 敌人的碰撞箱图形的左上角 xy 坐标
+                int enemyRectPosX = enemy->position.x + (enemy->width - enemy->hitboxWidth / 2 ) * enemy->zoom;
+                int enemyRextPosY = enemy->position.y + (enemy->height - enemy->hitboxHeight) / 2 * enemy->zoom;
                 SDL_Rect enemyRect = {
-                    static_cast<int>(enemy->position.x),
-                    static_cast<int>(enemy->position.y),
-                    enemy->hitboxWidth, enemy->hitboxHeight };
+                    static_cast<int>(enemyRectPosX),
+                    static_cast<int>(enemyRextPosY),
+                    enemy->hitboxWidth, enemy->hitboxHeight
+                };
+                // 玩家子弹的碰撞箱图形的左上角 xy 坐标
+                int projectileRectPosX = (
+                    projectile->position.x + (projectile->width - projectile->hitboxWidth / 2 ) * projectile->zoom
+                );
+                int projectileRectPosY = (
+                    projectile->position.y + (projectile->height - projectile->hitboxHeight / 2 ) * projectile->zoom
+                );
                 SDL_Rect projectileRect = {
-                    static_cast<int>(projectile->position.x),
-                    static_cast<int>(projectile->position.y),
+                    static_cast<int>(projectileRectPosX),
+                    static_cast<int>(projectileRectPosY),
                     projectile->hitboxWidth, projectile->hitboxHeight };
                 
                     if (SDL_HasIntersection(&enemyRect, &projectileRect)) {
@@ -253,7 +262,7 @@ void SceneMain::spawEnemy() {
     if (dis(gen) > 1 / 60.0f) return;
     Enemy* enemy = new Enemy(enemyTemplate);
     enemy->position.x = dis(gen) * (gameInstance.getWindowWidth() - enemy->width);
-    enemy->position.y = (float)(- enemy->height - enemy->deviation);
+    enemy->position.y = (float)(- enemy->height);
     enemies.push_back(enemy);
 }
 

@@ -34,12 +34,15 @@ public:
     void Clean() override;
 
     void keyboardControl(float deltaTime);
-    void shootPlayer();
+    void shootPlayer();    
+    // 检测玩家的子弹有没有出界和有没有打到敌人
     void updatePlayerProjectiles(float deltaTime);
+    // 渲染玩家的子弹
     void renderPlayerProjectiles();
     void spawEnemy();
     void updateEnemies(float deltaTime);
     void updateEnemyProjectiles(float deltaTime);
+    // 渲染敌人
     void renderEnemies();
     void renderEnemyProjectiles();
     void shootEnemy(Enemy* enemy);
