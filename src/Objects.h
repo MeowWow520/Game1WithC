@@ -19,8 +19,8 @@ struct Player {
     int edgeDown = 11;
     int edgeLeft = 9;
     int edgeRight = 9;
-    int zoom = 2;
-    int currentHealth = 4;
+    int zoom = 1;
+    int currentHealth = 20;
     Uint32 coolDown = 1000;
     Uint32 lastShootTime = 0;
 
@@ -49,7 +49,7 @@ struct ProjectilePlayer {
     int height = 0;
     int hitboxWidth = 6;
     int hitboxHeight = 16;
-    int zoom = 2;
+    int zoom = 1;
     int damage = 1;
 
 };
@@ -67,8 +67,8 @@ struct Enemy {
     int edgeDown = 13;
     int edgeLeft = 13;
     int edgeRight = 13;
-    int zoom = 2;
-    int currentHealth = 4;
+    int zoom = 1;
+    int currentHealth = 1;
     Uint32 coolDown = 1000;
     Uint32 lastShootTime = 0;
 
@@ -84,7 +84,7 @@ struct ProjectileEnemy {
     int height = 0;
     int hitboxWidth = 6;
     int hitboxHeight = 16;
-    int zoom = 2;
+    int zoom = 1;
     int damage = 1;
 
 };
