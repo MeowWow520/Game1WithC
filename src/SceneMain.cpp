@@ -2,102 +2,66 @@
 #include "Game.h"
 
 
-// 引入 gameInstance
-SceneMain::SceneMain() : gameInstance(Game::getInstance()) {
-    spdlog::info(u8"Entering SceneMain::SceneMain()......");
-}
 
-SceneMain::~SceneMain() { 
-    spdlog::info(u8"Entering SceneMain::~SceneMain()......");
-}
+// 引入 gameInstance
+SceneMain::SceneMain() : gameInstance(Game::getInstance()) { }
+
+SceneMain::~SceneMain() { }
 
 void SceneMain::Initialize() {
-    spdlog::info(u8"Entering SceneMain::Initialize()......");
-
-
     // 初始化随机数生成器
     std::random_device rd;
     gen = std::mt19937(rd());
     dis = std::uniform_real_distribution<float>(0.0f, 1.0f);
 
-
-
-
     // 初始化玩家子弹模板
-    spdlog::info(u8"[init] Initializing projectilePlayerTemplate texture......");
     projectilePlayerTemplate.texture = IMG_LoadTexture(
         gameInstance.getRenderer(), 
-        u8"assets/Foozle_MainShip/Main ship weapons/Main ship weapon - Projectile - Rocket - 1.png"
+        u8"assets/Foozle_MainShip/Weapons/Projectile-Rocket-1.png"
     );
-    if (projectilePlayerTemplate.texture == nullptr) {
-        spdlog::error(u8"Failed to load projectilePlayerTemplate texture: {}", SDL_GetError());
-    } else {         
-        spdlog::info(u8"[init] background.texture loaded successfully");
+    if (projectilePlayerTemplate.texture != nullptr) {
         SDL_QueryTexture(projectilePlayerTemplate.texture, NULL, NULL, 
-                            &projectilePlayerTemplate.width, 
-                            &projectilePlayerTemplate.height); 
-        spdlog::info(u8"[init] projectilePlayerTemplate called SDL_QueryTexture()");
-    }
+                    &projectilePlayerTemplate.width, 
+                    &projectilePlayerTemplate.height);
+    } else { return; }
     projectilePlayerTemplate.width *= projectilePlayerTemplate.zoom;
     projectilePlayerTemplate.height *= projectilePlayerTemplate.zoom;
 
-
-
-
     // 初始化敌机子弹
-    spdlog::info(u8"[init] Initializing projectileEnemyTemplate texture......");
     projectileEnemyTemplate.texture = IMG_LoadTexture(
         gameInstance.getRenderer(), 
-        u8"assets/Foozle_MainShip/Main ship weapons/Main ship weapon - Projectile - Rocket - 1.png"
+        u8"assets/Foozle_MainShip/Weapons/Projectile-Rocket-1.png"
     );
-    if (projectileEnemyTemplate.texture == nullptr) {
-        spdlog::error(u8"Failed to load projectileEnemyTemplate texture: {}", SDL_GetError());
-    } else {         
-        spdlog::info(u8"[init] projectileEnemyTemplate.texture loaded successfully");
+    if (projectileEnemyTemplate.texture != nullptr) {
         SDL_QueryTexture(projectileEnemyTemplate.texture, NULL, NULL, 
                             &projectileEnemyTemplate.width, 
-                            &projectileEnemyTemplate.height); 
-        spdlog::info(u8"[init] projectileEnemyTemplate called SDL_QueryTexture()");
-    }
+                            &projectileEnemyTemplate.height);
+    } else { return; }
     projectileEnemyTemplate.width *= projectileEnemyTemplate.zoom;
     projectileEnemyTemplate.height *= projectileEnemyTemplate.zoom;
 
-
-
     // 初始化背景
-    spdlog::info(u8"[init] Initializing background texture......");
     background.texture = IMG_LoadTexture(
         gameInstance.getRenderer(), 
         u8"assets/Backgrounds/orig.png"
     );
-    if (background.texture == nullptr) {
-              spdlog::error(u8"Failed to load background texture: {}", SDL_GetError());
-    } else { 
-        spdlog::info(u8"[init] background.texture loaded successfully");
-        SDL_QueryTexture(background.texture, NULL, NULL, &background.width, &background.height);
-        spdlog::info(u8"[init] background called SDL_QueryTexture()");
+    if (background.texture != nullptr) {
+        SDL_QueryTexture(background.texture, NULL, NULL, 
+            &background.width, &background.height);
     }
-    // 设置背景缩放比例 设置默认背景位置
     background.width *= background.zoom;
     background.height *= background.zoom;
     background.position.x = 0;
     background.position.y = 0;
 
-
-
-
     // 初始化玩家
-    spdlog::info(u8"[init] Initializing player.texture......");
     player.texture = IMG_LoadTexture(
         gameInstance.getRenderer(), 
-        u8"assets/Foozle_MainShip/Main Ship - Bases/Main Ship - Base - Full health.png"
+        u8"assets/Foozle_MainShip/Bases/Full_health.png"
     );
-    if (player.texture == nullptr) {
-        spdlog::error(u8"Failed to load player texture: {}", SDL_GetError());
-    } else { 
-        spdlog::info(u8"[init] Player.texture loaded successfully");
-        SDL_QueryTexture(player.texture, NULL, NULL, &player.width, &player.height);
-        spdlog::info(u8"[init] player called SDL_QueryTexture()");
+    if (player.texture != nullptr) {
+        SDL_QueryTexture(player.texture, NULL, NULL, 
+            &player.width, &player.height);
     }
     // 设置玩家缩放比例 设置默认玩家位置
     player.width *= player.zoom;
@@ -105,20 +69,14 @@ void SceneMain::Initialize() {
     player.position.x = (float)(gameInstance.getWindowWidth() / 2) - (float)(player.width / 2);
     player.position.y = (float)(gameInstance.getWindowHeight() - player.height);
 
-
-
     // 初始化敌机模板
-    spdlog::info(u8"[init] Initializing enemyTemplate.texture......");
     enemyTemplate.texture = IMG_LoadTexture(
         gameInstance.getRenderer(), 
-        u8"assets/Foozle_MainShip/Main Ship - Engines/Main Ship - Engines - Base Engine.png"
+        u8"assets/Foozle_MainShip/Engines/Base_Engine.png"
     );
-    if (enemyTemplate.texture == nullptr){
-        spdlog::error(u8"Failed to load enemyTemplate texture: {}", SDL_GetError());
-    } else { 
-        spdlog::info(u8"[init] enemyTemplate.texture loaded successfully");
-        SDL_QueryTexture(enemyTemplate.texture, NULL, NULL, &enemyTemplate.width, &enemyTemplate.height);
-        spdlog::info(u8"[init] enemyTemplate called SDL_QueryTexture()");
+    if (enemyTemplate.texture != nullptr) {
+        SDL_QueryTexture(enemyTemplate.texture, NULL, NULL, 
+            &enemyTemplate.width, &enemyTemplate.height);
     }
     // 设置敌机模板缩放比例
     enemyTemplate.width *= enemyTemplate.zoom;
@@ -142,18 +100,15 @@ void SceneMain::Render() {
                                 static_cast<int>(background.position.y), 
                                 background.width, 
                                 background.height };
-    if (SDL_RenderCopy(gameInstance.getRenderer(), background.texture, NULL, &backgroundRect) != 0) {
-        spdlog::error(u8"backgroundRect called SDL_RenderCopy failed");
-    }
+    if (SDL_RenderCopy(gameInstance.getRenderer(), background.texture, NULL, &backgroundRect) != 0)
+        return;
 
-    
     if (!isDead) {
         SDL_Rect playerRect = { static_cast<int>(player.position.x), 
                                 static_cast<int>(player.position.y), 
                                 player.width,  player.height };
-        if (SDL_RenderCopy(gameInstance.getRenderer(), player.texture, NULL, &playerRect) != 0) {
-            spdlog::error(u8"playerRect called SDL_RenderCopy failed");
-        }
+        if (SDL_RenderCopy(gameInstance.getRenderer(), player.texture, NULL, &playerRect) != 0)
+            return;
     }
     renderPlayerProjectiles();
     renderEnemyProjectiles();
@@ -161,88 +116,66 @@ void SceneMain::Render() {
 }
 
 void SceneMain::Clean() { 
-    spdlog::info(u8"Entering SceneMain::Clean()......");
-
-
     // 删除背景纹理
-    if (background.texture != nullptr) {
+    if (background.texture != nullptr) 
         SDL_DestroyTexture(background.texture);
-        spdlog::info(u8"[Clean] Background texture destroyed");
-    }
-
-
-
+    
     // 删除玩家纹理
-    if (player.texture != nullptr) {
+    if (player.texture != nullptr) 
         SDL_DestroyTexture(player.texture);
-        spdlog::info(u8"[Clean] Player texture destroyed");
-    }
+
     // 删除玩家子弹
-    spdlog::info(u8"[Clean] Cleanning projectilesPlayer......");
     for (auto &projectile : projectilesPlayer) {
         if (projectile != nullptr) delete projectile;
     }
     projectilesPlayer.clear();
-    spdlog::info(u8"[Clean] Cleaned projectilesPlayer");
-    // 删除玩家子弹模板
-    if (projectilePlayerTemplate.texture != nullptr) {
-        SDL_DestroyTexture(projectilePlayerTemplate.texture);
-        spdlog::info(u8"[Clean] Cleaned projectilePlayerTemplate texture"); 
-    }
 
+    // 删除玩家子弹模板
+    if (projectilePlayerTemplate.texture != nullptr)
+        SDL_DestroyTexture(projectilePlayerTemplate.texture);
 
     // 删除敌机模板
-    if (enemyTemplate.texture != nullptr) {
+    if (enemyTemplate.texture != nullptr) 
         SDL_DestroyTexture(enemyTemplate.texture);
-        spdlog::info(u8"[Clean] Cleaned enemyTemplate texture"); 
-    }
+
     // 删除敌机
-    spdlog::info(u8"[Clean] Cleanning enemies......");
     for (auto &enemy : enemies) {
         if (enemy != nullptr) delete enemy;
     }
     enemies.clear();
-    spdlog::info(u8"[Clean] Cleaned projectilesPlayer");
     // 删除敌机子弹
-    spdlog::info(u8"[Clean] Cleanning projectilesEnemy......");
     for (auto &projectile : projectilesEnemy) {
         if (projectile != nullptr) delete projectile;
     }
     projectilesEnemy.clear();
-    spdlog::info(u8"[Clean] Cleaned projectilesEnemy");
+
     // 删除敌人子弹模板
-    if (projectileEnemyTemplate.texture != nullptr) {
+    if (projectileEnemyTemplate.texture != nullptr) 
         SDL_DestroyTexture(projectileEnemyTemplate.texture);
-        spdlog::info(u8"[Clean] Cleaned projectileEnemyTemplate texture"); 
-    }
 
 }
 
+
+// 逻辑大概是对的了
 void SceneMain::keyboardControl(float deltaTime) {
     auto keyboardState = SDL_GetKeyboardState(NULL);
     // 控制玩家移动
     if (keyboardState[SDL_SCANCODE_W]) {
-        if (player.position.y > - player.edgeUP * player.zoom + player.deviation)
+        if (player.position.y > - player.edgeUP * player.zoom)
             player.position.y -= deltaTime * player.speed;
     }
     if (keyboardState[SDL_SCANCODE_S]) {
-        /**
-         * 不明的BUG
-         * 不知到为什么，玩家的位置会超过边界
-         */
         if (player.position.y < gameInstance.getWindowHeight() - 
-                                player.height + player.edgeDown * player.zoom - 
-                                player.deviation)
+                                (player.height - player.edgeDown ) * player.zoom)
             player.position.y += deltaTime * player.speed;
     }
     if (keyboardState[SDL_SCANCODE_A]) {
-        if (player.position.x > - player.edgeLeft * player.zoom - player.deviation)
+        if (player.position.x > - player.edgeLeft * player.zoom )
             player.position.x -= deltaTime * player.speed;
     }
     if (keyboardState[SDL_SCANCODE_D]) {
         if (player.position.x < gameInstance.getWindowWidth() - 
-                                player.width + (player.edgeRight * player.zoom) - 
-                                player.deviation * player.deviationZoom)
+                                (player.width - player.edgeRight) * player.zoom)
             player.position.x += deltaTime * player.speed;
     }
     // 控制子弹发射
@@ -255,16 +188,20 @@ void SceneMain::keyboardControl(float deltaTime) {
     }
 }
 
+// 逻辑大概是对的了
 void SceneMain::shootPlayer() {
     // 创建新子弹
     auto projectile = new ProjectilePlayer(projectilePlayerTemplate);
-    // 定位在飞机顶部中央
-    projectile->position.x = player.position.x + player.width / 2 - projectile->width / 2;
-    projectile->position.y = player.position.y;
+    // 定位在碰撞箱顶部中央
+    projectile->position.x = player.position.x + 
+                             player.width / 2 * player.zoom -
+                             projectile->width / 2 * projectile->zoom;
+    projectile->position.y = player.position.y + (player.height - player.hitboxHeight) / 2 * player.zoom;
     // 添加到活动子弹列表
     projectilesPlayer.push_back(projectile);
 }
 
+// 逻辑大概是对的了
 void SceneMain::updatePlayerProjectiles(float deltaTime) {
     int margin = 32;
     for (auto it = projectilesPlayer.begin(); it != projectilesPlayer.end();) {
@@ -272,31 +209,41 @@ void SceneMain::updatePlayerProjectiles(float deltaTime) {
         // 更新子弹位置
         projectile->position.y -= projectile->speed * deltaTime;
         // 检查子弹是否超出屏幕
-        if (projectile->position.y + margin < 0) {
+        if (projectile->position.y  < - projectile->height * projectile->zoom - margin) {
             delete projectile;
             it = projectilesPlayer.erase(it);
         } else {
             bool hit = false;
             for (auto enemy : enemies) {
+                // 敌人的碰撞箱图形的左上角 xy 坐标
+                int enemyRectPosX = enemy->position.x + (enemy->width - enemy->hitboxWidth / 2 ) * enemy->zoom;
+                int enemyRextPosY = enemy->position.y + (enemy->height - enemy->hitboxHeight) / 2 * enemy->zoom;
                 SDL_Rect enemyRect = {
-                    static_cast<int>(enemy->position.x),
-                    static_cast<int>(enemy->position.y),
-                    enemy->width, enemy->height };
+                    static_cast<int>(enemyRectPosX),
+                    static_cast<int>(enemyRextPosY),
+                    enemy->hitboxWidth, enemy->hitboxHeight
+                };
+                // 玩家子弹的碰撞箱图形的左上角 xy 坐标
+                int projectileRectPosX = (
+                    projectile->position.x + (projectile->width - projectile->hitboxWidth / 2 ) * projectile->zoom
+                );
+                int projectileRectPosY = (
+                    projectile->position.y + (projectile->height - projectile->hitboxHeight / 2 ) * projectile->zoom
+                );
                 SDL_Rect projectileRect = {
-                    static_cast<int>(projectile->position.x),
-                    static_cast<int>(projectile->position.y),
-                    projectile->width, projectile->height };
+                    static_cast<int>(projectileRectPosX),
+                    static_cast<int>(projectileRectPosY),
+                    projectile->hitboxWidth, projectile->hitboxHeight };
                 
                     if (SDL_HasIntersection(&enemyRect, &projectileRect)) {
-                    enemy->currentHealth -= projectile->damage;
-                    delete projectile;
-                    it = projectilesPlayer.erase(it);
-                    hit = true;
-                    break; 
-                }
-
-                if (!hit) ++it;
+                        enemy->currentHealth -= projectile->damage;
+                        hit = true;
+                        delete projectile;
+                        it = projectilesPlayer.erase(it);
+                        break; 
+                    }
             }
+            if (!hit) { ++it; }
         }
     }
 }
@@ -307,9 +254,8 @@ void SceneMain::renderPlayerProjectiles() {
             static_cast<int>(projectile->position.x),
             static_cast<int>(projectile->position.y),
             projectile->width, projectile->height };
-        if (SDL_RenderCopy(gameInstance.getRenderer(), projectile->texture, NULL, &projectileRect) != 0) {
-            spdlog::error(u8"projectilesPlayer called SDL_RenderCopy failed");
-        }
+        if (SDL_RenderCopy(gameInstance.getRenderer(), projectile->texture, NULL, &projectileRect) != 0)
+            return;
     }
 }
 
@@ -317,7 +263,7 @@ void SceneMain::spawEnemy() {
     if (dis(gen) > 1 / 60.0f) return;
     Enemy* enemy = new Enemy(enemyTemplate);
     enemy->position.x = dis(gen) * (gameInstance.getWindowWidth() - enemy->width);
-    enemy->position.y = (float)(- enemy->height - enemy->deviation);
+    enemy->position.y = (float)(- enemy->height);
     enemies.push_back(enemy);
 }
 
@@ -328,35 +274,43 @@ void SceneMain::renderEnemies() {
             static_cast<int>(enemy->position.y),
             enemy->width,
             enemy->height };
-        if (SDL_RenderCopyEx(gameInstance.getRenderer(), enemy->texture, NULL, &enemyRect, 180.00f, NULL, SDL_FLIP_NONE) != 0){ 
-            spdlog::error(u8"enemies called SDL_RenderCopy failed");
-        }
+        if (SDL_RenderCopyEx(gameInstance.getRenderer(), 
+                             enemy->texture, NULL, 
+                             &enemyRect, 180.00f, NULL, SDL_FLIP_NONE) != 0
+        ) return;
     }
 }
 
 void SceneMain::shootEnemy(Enemy *enemy) {
 
     auto projectile = new ProjectileEnemy(projectileEnemyTemplate);
-    projectile->position.x = enemy->position.x + enemy->width / 2 - projectile->width / 2;
+    projectile->position.x = enemy->position.x + (enemy->width * enemy->zoom- projectile->width * projectile->zoom) / 2 ;
     projectile->position.y = enemy->position.y + enemy->height / 2 - projectile->height / 2;
     projectile->direction = getDirection(enemy);
     projectilesEnemy.push_back(projectile);
 
 }
 
+// 逻辑大概是对的了
 void SceneMain::updatePlayer(float deltaTime) {
 
     if (isDead) return;
     if (player.currentHealth <= 0) isDead = true;
-    for (auto enemy : enemies){
+    for (auto enemy : enemies) {
+        // 敌人的碰撞箱图形的左上角 xy 坐标
+        int enemyRectPosX = enemy->position.x + (enemy->width - enemy->hitboxWidth / 2 ) * enemy->zoom;
+        int enemyRextPosY = enemy->position.y + (enemy->height - enemy->hitboxHeight) / 2 * enemy->zoom;
         SDL_Rect enemyRect = {
-            static_cast<int>(enemy->position.x),
-            static_cast<int>(enemy->position.y),
-            enemy->width, enemy->height };
+            static_cast<int>(enemyRectPosX),
+            static_cast<int>(enemyRextPosY),
+            enemy->hitboxWidth, enemy->hitboxHeight };
+        // 玩家的碰撞箱图形的左上角 xy 坐标
+        int playerRectPosX = player.position.x + (player.width - player.hitboxWidth) / 2 * player.zoom;
+        int playerRectPosY = player.position.y + (player.height - player.hitboxHeight) / 2 * player.zoom;
         SDL_Rect playerRect = {
-            static_cast<int>(player.position.x),
-            static_cast<int>(player.position.y),
-            player.width, player.height };
+            static_cast<int>(playerRectPosX),
+            static_cast<int>(playerRectPosY),
+            player.hitboxWidth, player.hitboxHeight };
         if (SDL_HasIntersection(&playerRect, &enemyRect)) { 
             player.currentHealth -= 1;
             enemy->currentHealth = 0;
@@ -392,7 +346,7 @@ void SceneMain::updateEnemies(float deltaTime) {
 
 void SceneMain::updateEnemyProjectiles(float deltaTime) {
 
-    auto margin = 32;
+    auto margin = 64;
     for (auto it = projectilesEnemy.begin(); it != projectilesEnemy.end();) {
         auto projectile = *it;
         projectile->position.x += projectile->speed * projectile->direction.x * deltaTime;
@@ -404,14 +358,20 @@ void SceneMain::updateEnemyProjectiles(float deltaTime) {
             delete projectile;
             it = projectilesEnemy.erase(it);
         } else {
+            // 敌人子弹的碰撞箱图形的左上角 xy 坐标
+            int projectileRectPosX = projectile->position.x + (projectile->width - projectile->hitboxWidth / 2 ) * projectile->zoom;
+            int projectileRectPosY = projectile->position.y + (projectile->height - projectile->hitboxHeight) / 2 * projectile->zoom;
             SDL_Rect projectileRect = {
-                static_cast<int>(projectile->position.x),
-                static_cast<int>(projectile->position.y),
-                projectile->width, projectile->height };
+                static_cast<int>(projectileRectPosX),
+                static_cast<int>(projectileRectPosY),
+                projectile->hitboxWidth, projectile->hitboxHeight };
+            // 玩家的碰撞箱图形的左上角 xy 坐标
+            int playerRectPosX = player.position.x + (player.width - player.hitboxWidth) / 2 * player.zoom;
+            int playerRectPosY = player.position.y + (player.height - player.hitboxHeight) / 2 * player.zoom;
             SDL_Rect playerRect = {
-                static_cast<int>(player.position.x),
-                static_cast<int>(player.position.y),
-                player.width, player.height };
+                static_cast<int>(playerRectPosX),
+                static_cast<int>(playerRectPosY),
+                player.hitboxWidth, player.hitboxHeight };
             if (SDL_HasIntersection(&projectileRect, &playerRect) && !isDead){
                 player.currentHealth -= projectile->damage;
                 delete projectile;
