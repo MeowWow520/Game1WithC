@@ -16,7 +16,7 @@ void SceneMain::Initialize() {
     // 初始化玩家子弹模板
     projectilePlayerTemplate.texture = IMG_LoadTexture(
         gameInstance.getRenderer(), 
-        u8"assets/Foozle_MainShip/Main ship weapons/Main ship weapon - Projectile - Rocket - 1.png"
+        u8"assets/Foozle_MainShip/Weapons/Projectile-Rocket-1.png"
     );
     if (projectilePlayerTemplate.texture != nullptr) {
         SDL_QueryTexture(projectilePlayerTemplate.texture, NULL, NULL, 
@@ -29,7 +29,7 @@ void SceneMain::Initialize() {
     // 初始化敌机子弹
     projectileEnemyTemplate.texture = IMG_LoadTexture(
         gameInstance.getRenderer(), 
-        u8"assets/Foozle_MainShip/Main ship weapons/Main ship weapon - Projectile - Rocket - 1.png"
+        u8"assets/Foozle_MainShip/Weapons/Projectile-Rocket-1.png"
     );
     if (projectileEnemyTemplate.texture != nullptr) {
         SDL_QueryTexture(projectileEnemyTemplate.texture, NULL, NULL, 
@@ -56,7 +56,7 @@ void SceneMain::Initialize() {
     // 初始化玩家
     player.texture = IMG_LoadTexture(
         gameInstance.getRenderer(), 
-        u8"assets/Foozle_MainShip/Main Ship - Bases/Main Ship - Base - Full health.png"
+        u8"assets/Foozle_MainShip/Bases/Full_health.png"
     );
     if (player.texture != nullptr) {
         SDL_QueryTexture(player.texture, NULL, NULL, 
@@ -71,7 +71,7 @@ void SceneMain::Initialize() {
     // 初始化敌机模板
     enemyTemplate.texture = IMG_LoadTexture(
         gameInstance.getRenderer(), 
-        u8"assets/Foozle_MainShip/Main Ship - Engines/Main Ship - Engines - Base Engine.png"
+        u8"assets/Foozle_MainShip/Engines/Base_Engine.png"
     );
     if (enemyTemplate.texture != nullptr) {
         SDL_QueryTexture(enemyTemplate.texture, NULL, NULL, 
