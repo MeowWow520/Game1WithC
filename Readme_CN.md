@@ -16,9 +16,9 @@ Game1 With C
 | ---- | ---- | ---- | ---- | ---- |
 | Version | 2.32.10 | 2.8.8 | 2.8.1 | 2.24.0 |
 
-- cJOSN
+- cJOSN(正在进行)
 - spdlog
-- Steamworks SDK v1.63
+- Steamworks SDK v1.63(正在进行)
 
 ## 使用的工具
 - Inno Setup Script
