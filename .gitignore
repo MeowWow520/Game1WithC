@@ -2,6 +2,9 @@
 /build
 /.vscode
 
+# Ignore the claude-code config flie
+/.claude
+
 # Ignore the notice file
 /MyNotice.md
 
