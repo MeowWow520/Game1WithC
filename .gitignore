@@ -4,6 +4,7 @@
 
 # Ignore the claude-code config flie
 /.claude
+/CLAUDE.md
 
 # Ignore the notice file
 /MyNotice.md

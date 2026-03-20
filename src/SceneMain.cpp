@@ -166,16 +166,16 @@ void SceneMain::keyboardControl(float deltaTime) {
     }
     if (keyboardState[SDL_SCANCODE_S]) {
         if (player.position.y < gameInstance.getWindowHeight() - 
-                                (player.height - player.edgeDown) * player.zoom)
+                                (player.height - player.edgeDown))
             player.position.y += deltaTime * player.speed;
     }
     if (keyboardState[SDL_SCANCODE_A]) {
-        if (player.position.x > - player.edgeLeft * player.zoom )
+        if (player.position.x > - player.edgeLeft)
             player.position.x -= deltaTime * player.speed;
     }
     if (keyboardState[SDL_SCANCODE_D]) {
         if (player.position.x < gameInstance.getWindowWidth() - 
-                                (player.width - player.edgeRight) * player.zoom)
+                                (player.width - player.edgeRight))
             player.position.x += deltaTime * player.speed;
     }
     // 控制子弹发射
@@ -194,9 +194,9 @@ void SceneMain::shootPlayer() {
     auto projectile = new ProjectilePlayer(projectilePlayerTemplate);
     // 定位在碰撞箱顶部中央
     projectile->position.x = player.position.x + 
-                             player.width / 2 * player.zoom -
-                             projectile->width / 2 * projectile->zoom;
-    projectile->position.y = player.position.y + (player.height - player.hitboxHeight) / 2 * player.zoom;
+                             player.width / 2 -
+                             projectile->width / 2;
+    projectile->position.y = player.position.y + (player.height - player.hitboxHeight) / 2;
     // 添加到活动子弹列表
     projectilesPlayer.push_back(projectile);
 }
@@ -209,7 +209,7 @@ void SceneMain::updatePlayerProjectiles(float deltaTime) {
         // 更新子弹位置
         projectile->position.y -= projectile->speed * deltaTime;
         // 检查子弹是否超出屏幕
-        if (projectile->position.y  < - projectile->height * projectile->zoom - margin) {
+        if (projectile->position.y  < - projectile->height - margin) {
             delete projectile;
             it = projectilesPlayer.erase(it);
         } else {
@@ -225,10 +225,10 @@ void SceneMain::updatePlayerProjectiles(float deltaTime) {
                 };
                 // 玩家子弹的碰撞箱图形的左上角 xy 坐标
                 int projectileRectPosX = (int)(
-                    projectile->position.x + (projectile->width - projectile->hitboxWidth / 2 ) * projectile->zoom
+                    projectile->position.x + (projectile->width - projectile->hitboxWidth) / 2
                 );
                 int projectileRectPosY = (int)(
-                    projectile->position.y + (projectile->height - projectile->hitboxHeight / 2 ) * projectile->zoom
+                    projectile->position.y + (projectile->height - projectile->hitboxHeight) / 2 
                 );
                 SDL_Rect projectileRect = {
                     static_cast<int>(projectileRectPosX),
@@ -259,6 +259,7 @@ void SceneMain::renderPlayerProjectiles() {
     }
 }
 
+
 void SceneMain::spawEnemy() {
     if (dis(gen) > 1 / 60.0f) return;
     Enemy* enemy = new Enemy(enemyTemplate);
@@ -284,7 +285,7 @@ void SceneMain::renderEnemies() {
 void SceneMain::shootEnemy(Enemy *enemy) {
 
     auto projectile = new ProjectileEnemy(projectileEnemyTemplate);
-    projectile->position.x = enemy->position.x + (enemy->width * enemy->zoom- projectile->width * projectile->zoom) / 2 ;
+    projectile->position.x = enemy->position.x + (enemy->width - projectile->width) / 2 ;
     projectile->position.y = enemy->position.y + enemy->height / 2 - projectile->height / 2;
     projectile->direction = getDirection(enemy);
     projectilesEnemy.push_back(projectile);
@@ -298,15 +299,15 @@ void SceneMain::updatePlayer(float deltaTime) {
     if (player.currentHealth <= 0) isDead = true;
     for (auto enemy : enemies) {
         // 敌人的碰撞箱图形的左上角 xy 坐标
-        int enemyRectPosX = (int)(enemy->position.x + (enemy->width - enemy->hitboxWidth / 2 ) * enemy->zoom);
-        int enemyRextPosY = (int)(enemy->position.y + (enemy->height - enemy->hitboxHeight) / 2 * enemy->zoom);
+        int enemyRectPosX = (int)(enemy->position.x + (enemy->width - enemy->hitboxWidth / 2 ));
+        int enemyRextPosY = (int)(enemy->position.y + (enemy->height - enemy->hitboxHeight) / 2);
         SDL_Rect enemyRect = {
             static_cast<int>(enemyRectPosX),
             static_cast<int>(enemyRextPosY),
             enemy->hitboxWidth, enemy->hitboxHeight };
         // 玩家的碰撞箱图形的左上角 xy 坐标
-        int playerRectPosX = (int)(player.position.x + (player.width - player.hitboxWidth) / 2 * player.zoom);
-        int playerRectPosY = (int)(player.position.y + (player.height - player.hitboxHeight) / 2 * player.zoom);
+        int playerRectPosX = (int)(player.position.x + (player.width - player.hitboxWidth) / 2);
+        int playerRectPosY = (int)(player.position.y + (player.height - player.hitboxHeight) / 2);
         SDL_Rect playerRect = {
             static_cast<int>(playerRectPosX),
             static_cast<int>(playerRectPosY),
@@ -335,10 +336,11 @@ void SceneMain::updateEnemies(float deltaTime) {
                 shootEnemy(enemy);
                 enemy->lastShootTime = currentTime;
             }
-            if (enemy->currentHealth <= 0) {
+            if (enemy->currentHealth <= 0) { 
                 enemyExplode(enemy);
                 it = enemies.erase(it);
-            } else { ++it; }
+            }
+            else { ++it; }
         }
     }
 
@@ -359,15 +361,15 @@ void SceneMain::updateEnemyProjectiles(float deltaTime) {
             it = projectilesEnemy.erase(it);
         } else {
             // 敌人子弹的碰撞箱图形的左上角 xy 坐标
-            int projectileRectPosX = (int)(projectile->position.x + (projectile->width - projectile->hitboxWidth / 2 ) * projectile->zoom);
-            int projectileRectPosY = (int)(projectile->position.y + (projectile->height - projectile->hitboxHeight) / 2 * projectile->zoom);
+            int projectileRectPosX = (int)(projectile->position.x + (projectile->width - projectile->hitboxWidth / 2 ));
+            int projectileRectPosY = (int)(projectile->position.y + (projectile->height - projectile->hitboxHeight) / 2);
             SDL_Rect projectileRect = {
                 static_cast<int>(projectileRectPosX),
                 static_cast<int>(projectileRectPosY),
                 projectile->hitboxWidth, projectile->hitboxHeight };
             // 玩家的碰撞箱图形的左上角 xy 坐标
-            int playerRectPosX = (int)(player.position.x + (player.width - player.hitboxWidth) / 2 * player.zoom);
-            int playerRectPosY = (int)(player.position.y + (player.height - player.hitboxHeight) / 2 * player.zoom);
+            int playerRectPosX = (int)(player.position.x + (player.width - player.hitboxWidth) / 2);
+            int playerRectPosY = (int)(player.position.y + (player.height - player.hitboxHeight) / 2);
             SDL_Rect playerRect = {
                 static_cast<int>(playerRectPosX),
                 static_cast<int>(playerRectPosY),

@@ -1,3 +1,18 @@
+/**
+ * 结构体变量的设计逻辑,适用于所有结构体
+ * @param texture 纹理内容，用来在 SDL 库中初始化纹理
+ * @param position 资源文件是一个透明背景的图片，图片的左上角在游戏中的坐标被存在这个变量中
+ * @param speed 速度，用来管理对象的移动速度
+ * @param width assets 图片的宽度，在后续的碰撞箱计算中会使用到
+ * @param height assets 图片的高度，在后续的碰撞箱计算中会使用到
+ * @param hitboxWidth 这是碰撞检测时用到的检测两个 Rect 是否重叠的那个图形的宽度。这一部分的值是我手动调整的
+ * @param hitboxHeidth 这是碰撞检测时用到的检测两个 Rect 是否重叠的那个图形的宽度。这一部分的值是我手动调整的
+ * @param edgeUP 这是 assets 图片显示的图形上方的空白像素行数。在检测资源是否超出显示区的时候会用到。类似的edgeDown等也是这个逻辑
+ * @param zoom 缩放等级，用于调整资源文件渲染时显示的大小
+ * @param currentHealth 当前的生命值
+ * @param coolDown 用来存储射击的冷却时间，单位为 ms
+ * @param lastShootTime 用来存储距离上次射击的时间
+ */
 #pragma once 
 
 #ifndef OBJECTS_H
@@ -19,7 +34,7 @@ struct Player {
     int edgeDown = 11;
     int edgeLeft = 9;
     int edgeRight = 9;
-    int zoom = 1;
+    int zoom = 2;
     int currentHealth = 20;
     Uint32 coolDown = 1000;
     Uint32 lastShootTime = 0;
@@ -49,7 +64,7 @@ struct ProjectilePlayer {
     int height = 0;
     int hitboxWidth = 6;
     int hitboxHeight = 16;
-    int zoom = 1;
+    int zoom = 2;
     int damage = 1;
 
 };
@@ -67,7 +82,7 @@ struct Enemy {
     int edgeDown = 13;
     int edgeLeft = 13;
     int edgeRight = 13;
-    int zoom = 1;
+    int zoom = 2;
     int currentHealth = 1;
     Uint32 coolDown = 1000;
     Uint32 lastShootTime = 0;
@@ -84,7 +99,7 @@ struct ProjectileEnemy {
     int height = 0;
     int hitboxWidth = 6;
     int hitboxHeight = 16;
-    int zoom = 1;
+    int zoom = 2;
     int damage = 1;
 
 };
