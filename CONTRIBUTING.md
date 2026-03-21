@@ -1,3 +1,3 @@
 # CONTRIBUTORS
 
-- [MeowWow520](https://meowwwow520.cn/)
+- [MeowWow520](https://meowwow520.cn/)
